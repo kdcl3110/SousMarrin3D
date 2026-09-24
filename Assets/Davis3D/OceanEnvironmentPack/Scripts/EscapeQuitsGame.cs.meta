@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f09f60afebe6b2c45b5e0d70035174f0
+guid: bf079c4e1c454a24aa8534509adf147b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,10 +9,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 198056
-  packageName: Ocean Environment Pack
-  packageVersion: 2.0
-  assetPath: Assets/Davis3D/OceanEnvironmentPack/Scripts/EscapeQuitsGame.cs
-  uploadId: 733222

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 09347f694b981eb43882ca3288910869
+guid: 9e0d9c4f223688146992ab8cf19a127a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,10 +9,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 198056
-  packageName: Ocean Environment Pack
-  packageVersion: 2.0
-  assetPath: Assets/Davis3D/OceanEnvironmentPack/Scripts/PlayerController.cs
-  uploadId: 733222

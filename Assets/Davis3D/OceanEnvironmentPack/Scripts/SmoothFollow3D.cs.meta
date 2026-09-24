@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 20e46d62911394a4089bdf16868f2fb3
+guid: 339096ff82ac43c4b988975ef9771a04
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,10 +9,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 198056
-  packageName: Ocean Environment Pack
-  packageVersion: 2.0
-  assetPath: Assets/Davis3D/OceanEnvironmentPack/Scripts/SmoothFollow3D.cs
-  uploadId: 733222

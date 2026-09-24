@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-guid: 4a40f1fd3ace1064a9f914b08c6c325c
+guid: b780d01e578ebc948804222f80084b41
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 198056
-  packageName: Ocean Environment Pack
-  packageVersion: 2.0
-  assetPath: Assets/Davis3D/OceanEnvironmentPack/Materials/Environment/M_FloorWhite.mat
-  uploadId: 733222
