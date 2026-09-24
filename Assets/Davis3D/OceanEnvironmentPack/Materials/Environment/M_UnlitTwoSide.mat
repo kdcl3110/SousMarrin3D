@@ -87,7 +87,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0
+    - _Blend: 3
     - _BlendOp: 0
     - _BumpScale: 1
     - _Cull: 0
@@ -110,10 +110,11 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _UVSec: 0
+    - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.047058824, g: 0.45490196, b: 0.77254903, a: 1}
-    - _Color: {r: 0.0470588, g: 0.45490193, b: 0.77254903, a: 1}
+    - _BaseColor: {r: 0.047058783, g: 0.45490193, b: 0.77254903, a: 1}
+    - _Color: {r: 0.04705876, g: 0.45490193, b: 0.77254903, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
