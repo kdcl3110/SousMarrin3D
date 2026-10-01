@@ -2,11 +2,11 @@ using UnityEngine;
 
 /// <summary>
 /// Un poisson-agent "boid". Placé sur chaque poisson instancié par le BoidsManager.
-/// À chaque frame, il regarde ses voisins et applique les 3 règles de Reynolds :
+/// À chaque frame, il applique les 3 règles de Reynolds :
 ///   1. Séparation  - s'écarter des voisins trop proches
 ///   2. Alignement  - suivre la direction moyenne des voisins
 ///   3. Cohésion    - se rapprocher du centre du groupe
-/// + une force de confinement pour rester dans la zone de nage.
+/// + confinement dans la zone, + ÉVITEMENT des surfaces (raycast) et de la surface de l'eau.
 /// Le banc "émerge" de ces règles locales, sans chef ni trajectoire prédéfinie.
 /// </summary>
 public class FishBoid : MonoBehaviour
@@ -33,14 +33,11 @@ public class FishBoid : MonoBehaviour
 
             if (dist < manager.neighborRadius && dist > 0f)
             {
-                // Alignement : on additionne les directions des voisins
-                alignment += other.velocity;
-                // Cohésion : on additionne les positions des voisins
-                cohesion += other.transform.position;
+                alignment += other.velocity;                 // Alignement
+                cohesion += other.transform.position;        // Cohésion
                 neighborCount++;
 
-                // Séparation : si trop proche, on s'écarte (d'autant plus fort qu'on est près)
-                if (dist < manager.separationRadius)
+                if (dist < manager.separationRadius)          // Séparation (anti-collision)
                     separation += offset / dist;
             }
         }
@@ -49,22 +46,42 @@ public class FishBoid : MonoBehaviour
 
         if (neighborCount > 0)
         {
-            // Moyennes des voisins
             alignment /= neighborCount;
-            cohesion /= neighborCount;
-            cohesion = cohesion - transform.position; // direction vers le centre du groupe
+            cohesion = (cohesion / neighborCount) - transform.position;
 
             acceleration += separation.normalized * manager.separationWeight;
             acceleration += alignment.normalized * manager.alignmentWeight;
             acceleration += cohesion.normalized * manager.cohesionWeight;
         }
 
-        // --- Confinement : rester dans la zone de nage ---
+        // --- Confinement dans la zone de nage ---
         Vector3 toCenter = manager.transform.position - transform.position;
         if (toCenter.magnitude > manager.zoneRadius)
             acceleration += toCenter.normalized * manager.boundsWeight;
 
-        // --- Appliquer l'accélération à la vitesse, puis limiter la vitesse ---
+        // --- ÉVITEMENT DES SURFACES (roche, terrain) via raycast devant le poisson ---
+        if (velocity.sqrMagnitude > 0.001f)
+        {
+            Vector3 dir = velocity.normalized;
+            if (Physics.SphereCast(transform.position, manager.avoidSphereRadius, dir,
+                                   out RaycastHit hit, manager.avoidDistance,
+                                   manager.obstacleMask, QueryTriggerInteraction.Ignore))
+            {
+                // Plus l'obstacle est proche, plus on s'en écarte fort (le long de sa normale).
+                float strength = 1f - (hit.distance / manager.avoidDistance);
+                acceleration += hit.normal * manager.avoidWeight * strength;
+            }
+        }
+
+        // --- SURFACE DE L'EAU : plafond plat, on repousse vers le bas en approchant ---
+        float distToSurface = manager.waterSurfaceY - transform.position.y;
+        if (distToSurface < manager.surfaceMargin)
+        {
+            float strength = Mathf.Clamp01(1f - distToSurface / manager.surfaceMargin);
+            acceleration += Vector3.down * manager.surfaceWeight * strength;
+        }
+
+        // --- Appliquer l'accélération, limiter la vitesse ---
         velocity += acceleration * Time.deltaTime;
         float speed = velocity.magnitude;
         if (speed > manager.maxSpeed) velocity = velocity.normalized * manager.maxSpeed;
@@ -77,7 +94,8 @@ public class FishBoid : MonoBehaviour
         if (velocity != Vector3.zero)
         {
             Quaternion target = Quaternion.LookRotation(velocity);
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, manager.turnSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target,
+                                                  manager.turnSpeed * Time.deltaTime);
         }
     }
 }
