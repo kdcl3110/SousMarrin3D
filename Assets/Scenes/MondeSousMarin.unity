@@ -5252,6 +5252,10 @@ MonoBehaviour:
   waterSurfaceY: 58.8
   surfaceMargin: 3
   surfaceWeight: 5
+  submarine: {fileID: 0}
+  fleeRadius: 14
+  fleeWeight: 18
+  fleeSpeedBoost: 2
   members: []
 --- !u!4 &393491937
 Transform:
@@ -10962,6 +10966,10 @@ MonoBehaviour:
   waterSurfaceY: 58.8
   surfaceMargin: 3
   surfaceWeight: 5
+  submarine: {fileID: 0}
+  fleeRadius: 14
+  fleeWeight: 18
+  fleeSpeedBoost: 2
   members: []
 --- !u!4 &914440677
 Transform:
@@ -92073,6 +92081,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Submarine
       objectReference: {fileID: 0}
+    - target: {fileID: 933570755261254714, guid: 6d3b6fa7ced7e0249bb3beb8dd9edcdf, type: 3}
+      propertyPath: m_TagString
+      value: Submarine
+      objectReference: {fileID: 0}
     - target: {fileID: 2739874822550624192, guid: 6d3b6fa7ced7e0249bb3beb8dd9edcdf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.7442
@@ -92601,6 +92613,10 @@ MonoBehaviour:
   waterSurfaceY: 58.8
   surfaceMargin: 3
   surfaceWeight: 5
+  submarine: {fileID: 0}
+  fleeRadius: 14
+  fleeWeight: 18
+  fleeSpeedBoost: 2
   members: []
 --- !u!4 &1498673206
 Transform:
@@ -98609,6 +98625,10 @@ MonoBehaviour:
   waterSurfaceY: 58.8
   surfaceMargin: 3
   surfaceWeight: 5
+  submarine: {fileID: 0}
+  fleeRadius: 14
+  fleeWeight: 18
+  fleeSpeedBoost: 2
   members: []
 --- !u!1 &1983851937
 GameObject:

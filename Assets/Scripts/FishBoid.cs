@@ -1,43 +1,53 @@
 using UnityEngine;
 
 /// <summary>
-/// Un poisson-agent "boid". Placé sur chaque poisson instancié par le BoidsManager.
-/// À chaque frame, il applique les 3 règles de Reynolds :
-///   1. Séparation  - s'écarter des voisins trop proches
-///   2. Alignement  - suivre la direction moyenne des voisins
-///   3. Cohésion    - se rapprocher du centre du groupe
-/// + confinement dans la zone, + ÉVITEMENT des surfaces (raycast) et de la surface de l'eau.
-/// Le banc "émerge" de ces règles locales, sans chef ni trajectoire prédéfinie.
+/// Un poisson-agent "boid" avec MACHINE À ÉTATS (perception -> décision -> action).
+/// États : Indifférent / Alerte / Fuite, déterminés par la proximité du sous-marin.
+///   - Indifférent : applique les 3 règles de Reynolds (séparation, alignement, cohésion).
+///   - Alerte      : commence à s'écarter du sous-marin.
+///   - Fuite       : forte répulsion + accélération (panique).
+/// + confinement, évitement des surfaces, et plafond de la surface de l'eau.
 /// </summary>
 public class FishBoid : MonoBehaviour
 {
+    public enum State { Calm, Alert, Flee }
     [HideInInspector] public BoidsManager manager;
     [HideInInspector] public Vector3 velocity;
+    public State state { get; private set; } = State.Calm;  // consultable (debug / futur proie-prédateur)
 
     void Update()
     {
         if (manager == null) return;
 
-        Vector3 separation = Vector3.zero;
-        Vector3 alignment = Vector3.zero;
-        Vector3 cohesion = Vector3.zero;
+        // ---------- PERCEPTION : où est le sous-marin ? -> DÉCISION : quel état ? ----------
+        float subDist = float.MaxValue;
+        Vector3 awayFromSub = Vector3.zero;
+        if (manager.submarine != null)
+        {
+            Vector3 toSub = manager.submarine.position - transform.position;
+            subDist = toSub.magnitude;
+            awayFromSub = (-toSub).normalized;
+        }
+
+        if (subDist < manager.fleeRadius * 0.6f) state = State.Flee;
+        else if (subDist < manager.fleeRadius)   state = State.Alert;
+        else                                      state = State.Calm;
+
+        // ---------- ACTION : calcul des forces ----------
+        Vector3 separation = Vector3.zero, alignment = Vector3.zero, cohesion = Vector3.zero;
         int neighborCount = 0;
 
-        // --- Perception : on regarde chaque autre membre du banc ---
         foreach (FishBoid other in manager.members)
         {
             if (other == this) continue;
-
             Vector3 offset = transform.position - other.transform.position;
             float dist = offset.magnitude;
-
             if (dist < manager.neighborRadius && dist > 0f)
             {
-                alignment += other.velocity;                 // Alignement
-                cohesion += other.transform.position;        // Cohésion
+                alignment += other.velocity;
+                cohesion += other.transform.position;
                 neighborCount++;
-
-                if (dist < manager.separationRadius)          // Séparation (anti-collision)
+                if (dist < manager.separationRadius)
                     separation += offset / dist;
             }
         }
@@ -48,10 +58,17 @@ public class FishBoid : MonoBehaviour
         {
             alignment /= neighborCount;
             cohesion = (cohesion / neighborCount) - transform.position;
-
             acceleration += separation.normalized * manager.separationWeight;
             acceleration += alignment.normalized * manager.alignmentWeight;
             acceleration += cohesion.normalized * manager.cohesionWeight;
+        }
+
+        // --- FUITE DU SOUS-MARIN (4e force, selon l'état) ---
+        if (state != State.Calm && manager.submarine != null)
+        {
+            // Plus le sous-marin est proche, plus la répulsion est forte.
+            float strength = Mathf.Clamp01(1f - subDist / manager.fleeRadius);
+            acceleration += awayFromSub * manager.fleeWeight * strength;
         }
 
         // --- Confinement dans la zone de nage ---
@@ -59,7 +76,7 @@ public class FishBoid : MonoBehaviour
         if (toCenter.magnitude > manager.zoneRadius)
             acceleration += toCenter.normalized * manager.boundsWeight;
 
-        // --- ÉVITEMENT DES SURFACES (roche, terrain) via raycast devant le poisson ---
+        // --- Évitement des surfaces (raycast devant le poisson) ---
         if (velocity.sqrMagnitude > 0.001f)
         {
             Vector3 dir = velocity.normalized;
@@ -67,13 +84,12 @@ public class FishBoid : MonoBehaviour
                                    out RaycastHit hit, manager.avoidDistance,
                                    manager.obstacleMask, QueryTriggerInteraction.Ignore))
             {
-                // Plus l'obstacle est proche, plus on s'en écarte fort (le long de sa normale).
                 float strength = 1f - (hit.distance / manager.avoidDistance);
                 acceleration += hit.normal * manager.avoidWeight * strength;
             }
         }
 
-        // --- SURFACE DE L'EAU : plafond plat, on repousse vers le bas en approchant ---
+        // --- Surface de l'eau (plafond plat) ---
         float distToSurface = manager.waterSurfaceY - transform.position.y;
         if (distToSurface < manager.surfaceMargin)
         {
@@ -81,16 +97,15 @@ public class FishBoid : MonoBehaviour
             acceleration += Vector3.down * manager.surfaceWeight * strength;
         }
 
-        // --- Appliquer l'accélération, limiter la vitesse ---
+        // --- Vitesse (boost en fuite) ---
         velocity += acceleration * Time.deltaTime;
+        float currentMax = (state == State.Flee) ? manager.maxSpeed * manager.fleeSpeedBoost : manager.maxSpeed;
         float speed = velocity.magnitude;
-        if (speed > manager.maxSpeed) velocity = velocity.normalized * manager.maxSpeed;
+        if (speed > currentMax) velocity = velocity.normalized * currentMax;
         else if (speed < manager.minSpeed) velocity = velocity.normalized * manager.minSpeed;
 
-        // --- Se déplacer ---
+        // --- Déplacement + orientation ---
         transform.position += velocity * Time.deltaTime;
-
-        // --- S'orienter dans le sens de la nage (rotation douce) ---
         if (velocity != Vector3.zero)
         {
             Quaternion target = Quaternion.LookRotation(velocity);
