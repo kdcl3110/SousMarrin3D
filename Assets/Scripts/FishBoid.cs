@@ -1,82 +1,100 @@
 using UnityEngine;
 
 /// <summary>
-/// Un poisson-agent "boid" avec MACHINE À ÉTATS (perception -> décision -> action).
-/// États : Indifférent / Alerte / Fuite, déterminés par la proximité du sous-marin.
-///   - Indifférent : applique les 3 règles de Reynolds (séparation, alignement, cohésion).
-///   - Alerte      : commence à s'écarter du sous-marin.
-///   - Fuite       : forte répulsion + accélération (panique).
-/// + confinement, évitement des surfaces, et plafond de la surface de l'eau.
+/// Poisson-agent "boid" avec machine à états et rôle écosystème.
+/// États : Calm / Alert / Flee / Hunt (perception -> décision -> action).
+///   - Proie    : fuit le sous-marin ET les prédateurs proches (état Flee).
+///   - Prédateur: chasse la proie la plus proche (état Hunt), et la mange au contact.
+///   - Neutre   : boids simples + fuite du sous-marin.
 /// </summary>
 public class FishBoid : MonoBehaviour
 {
-    public enum State { Calm, Alert, Flee }
+    public enum State { Calm, Alert, Flee, Hunt }
     [HideInInspector] public BoidsManager manager;
     [HideInInspector] public Vector3 velocity;
-    public State state { get; private set; } = State.Calm;  // consultable (debug / futur proie-prédateur)
+    [HideInInspector] public bool isAlive = true;
+    public State state { get; private set; } = State.Calm;
 
     void Update()
     {
-        if (manager == null) return;
+        if (manager == null || !isAlive) return;
 
-        // ---------- PERCEPTION : où est le sous-marin ? -> DÉCISION : quel état ? ----------
-        float subDist = float.MaxValue;
-        Vector3 awayFromSub = Vector3.zero;
-        if (manager.submarine != null)
-        {
-            Vector3 toSub = manager.submarine.position - transform.position;
-            subDist = toSub.magnitude;
-            awayFromSub = (-toSub).normalized;
-        }
+        State newState = State.Calm;
+        Vector3 acceleration = Vector3.zero;
 
-        if (subDist < manager.fleeRadius * 0.6f) state = State.Flee;
-        else if (subDist < manager.fleeRadius)   state = State.Alert;
-        else                                      state = State.Calm;
-
-        // ---------- ACTION : calcul des forces ----------
+        // ================= 3 RÈGLES DE REYNOLDS (voisins du même banc) =================
         Vector3 separation = Vector3.zero, alignment = Vector3.zero, cohesion = Vector3.zero;
-        int neighborCount = 0;
-
+        int n = 0;
         foreach (FishBoid other in manager.members)
         {
-            if (other == this) continue;
+            if (other == this || other == null || !other.isAlive) continue;
             Vector3 offset = transform.position - other.transform.position;
             float dist = offset.magnitude;
             if (dist < manager.neighborRadius && dist > 0f)
             {
                 alignment += other.velocity;
                 cohesion += other.transform.position;
-                neighborCount++;
-                if (dist < manager.separationRadius)
-                    separation += offset / dist;
+                n++;
+                if (dist < manager.separationRadius) separation += offset / dist;
             }
         }
-
-        Vector3 acceleration = Vector3.zero;
-
-        if (neighborCount > 0)
+        if (n > 0)
         {
-            alignment /= neighborCount;
-            cohesion = (cohesion / neighborCount) - transform.position;
+            alignment /= n;
+            cohesion = (cohesion / n) - transform.position;
             acceleration += separation.normalized * manager.separationWeight;
             acceleration += alignment.normalized * manager.alignmentWeight;
             acceleration += cohesion.normalized * manager.cohesionWeight;
         }
 
-        // --- FUITE DU SOUS-MARIN (4e force, selon l'état) ---
-        if (state != State.Calm && manager.submarine != null)
+        // ================= MENACES : sous-marin + prédateurs (pour tous / pour proies) =
+        // Fuite du sous-marin (tous les rôles)
+        if (manager.submarine != null)
         {
-            // Plus le sous-marin est proche, plus la répulsion est forte.
-            float strength = Mathf.Clamp01(1f - subDist / manager.fleeRadius);
-            acceleration += awayFromSub * manager.fleeWeight * strength;
+            Vector3 toSub = manager.submarine.position - transform.position;
+            float subDist = toSub.magnitude;
+            if (subDist < manager.fleeRadius)
+            {
+                float s = Mathf.Clamp01(1f - subDist / manager.fleeRadius);
+                acceleration += (-toSub).normalized * manager.fleeWeight * s;
+                newState = (subDist < manager.fleeRadius * 0.6f) ? State.Flee : State.Alert;
+            }
         }
 
-        // --- Confinement dans la zone de nage ---
+        // Fuite des prédateurs (proies uniquement)
+        if (manager.role == BoidsManager.Role.Prey)
+        {
+            if (BoidsManager.NearestPredator(transform.position, manager.predatorFleeRadius, out Vector3 predPos))
+            {
+                Vector3 away = transform.position - predPos;
+                float pd = away.magnitude;
+                float s = Mathf.Clamp01(1f - pd / manager.predatorFleeRadius);
+                acceleration += away.normalized * manager.predatorFleeWeight * s;
+                newState = State.Flee;
+            }
+        }
+
+        // ================= CHASSE (prédateurs uniquement) =============================
+        if (manager.role == BoidsManager.Role.Predator)
+        {
+            FishBoid prey = BoidsManager.FindNearestPrey(transform.position, manager.huntRadius);
+            if (prey != null)
+            {
+                Vector3 toPrey = prey.transform.position - transform.position;
+                acceleration += toPrey.normalized * manager.huntWeight;
+                newState = State.Hunt;
+
+                // Manger au contact
+                if (toPrey.magnitude < manager.eatDistance)
+                    prey.isAlive = false;   // retiré proprement en LateUpdate par son manager
+            }
+        }
+
+        // ================= CONFINEMENT + SURFACES + SURFACE DE L'EAU ==================
         Vector3 toCenter = manager.transform.position - transform.position;
         if (toCenter.magnitude > manager.zoneRadius)
             acceleration += toCenter.normalized * manager.boundsWeight;
 
-        // --- Évitement des surfaces (raycast devant le poisson) ---
         if (velocity.sqrMagnitude > 0.001f)
         {
             Vector3 dir = velocity.normalized;
@@ -84,27 +102,31 @@ public class FishBoid : MonoBehaviour
                                    out RaycastHit hit, manager.avoidDistance,
                                    manager.obstacleMask, QueryTriggerInteraction.Ignore))
             {
-                float strength = 1f - (hit.distance / manager.avoidDistance);
-                acceleration += hit.normal * manager.avoidWeight * strength;
+                float s = 1f - (hit.distance / manager.avoidDistance);
+                acceleration += hit.normal * manager.avoidWeight * s;
             }
         }
 
-        // --- Surface de l'eau (plafond plat) ---
         float distToSurface = manager.waterSurfaceY - transform.position.y;
         if (distToSurface < manager.surfaceMargin)
         {
-            float strength = Mathf.Clamp01(1f - distToSurface / manager.surfaceMargin);
-            acceleration += Vector3.down * manager.surfaceWeight * strength;
+            float s = Mathf.Clamp01(1f - distToSurface / manager.surfaceMargin);
+            acceleration += Vector3.down * manager.surfaceWeight * s;
         }
 
-        // --- Vitesse (boost en fuite) ---
+        state = newState;
+
+        // ================= VITESSE (boost selon l'état) ==============================
         velocity += acceleration * Time.deltaTime;
-        float currentMax = (state == State.Flee) ? manager.maxSpeed * manager.fleeSpeedBoost : manager.maxSpeed;
+        float currentMax = manager.maxSpeed;
+        if (state == State.Flee) currentMax *= manager.fleeSpeedBoost;
+        else if (state == State.Hunt) currentMax *= manager.chaseSpeedBoost;
+
         float speed = velocity.magnitude;
         if (speed > currentMax) velocity = velocity.normalized * currentMax;
         else if (speed < manager.minSpeed) velocity = velocity.normalized * manager.minSpeed;
 
-        // --- Déplacement + orientation ---
+        // ================= DÉPLACEMENT + ORIENTATION =================================
         transform.position += velocity * Time.deltaTime;
         if (velocity != Vector3.zero)
         {

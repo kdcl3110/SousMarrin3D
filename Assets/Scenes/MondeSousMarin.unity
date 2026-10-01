@@ -3107,6 +3107,109 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1030997528, guid: abc00000000001940982943149213518, type: 3}
   m_PrefabInstance: {fileID: 194515912}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &198268865
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_Name
+      value: SK_HammerHead_Shark (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.4200615
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9074956
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 229.677
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 198268867}
+  m_SourcePrefab: {fileID: 100100000, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+--- !u!1 &198268866 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+  m_PrefabInstance: {fileID: 198268865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &198268867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198268866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3990e2224e35174408cb877d6b05c1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PredatorFish
+  cruiseSpeed: 1
+  huntSpeed: 10
+  minSpeed: 1
+  speedChange: 6
+  turnRate: 2.5
+  huntTurnRate: 4.5
+  avoidTurnRate: 6
+  wanderJitter: 0.6
+  homeCenter: {fileID: 0}
+  wanderRadius: 40
+  canHunt: 0
+  timeToGetHungry: 8
+  huntRadius: 25
+  eatDistance: 2
+  satiatedDuration: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  avoidDistance: 4
+  avoidSphereRadius: 1
+  avoidWeight: 10
+  waterSurfaceY: 40
+  surfaceMargin: 4
+  surfaceWeight: 6
+  steerWeight: 3
+  boundsWeight: 3
 --- !u!4 &202813884 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1031006090, guid: abc00000000005312593503508368233, type: 3}
@@ -4463,6 +4566,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SK_HammerHead_Shark
       objectReference: {fileID: 0}
+    - target: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5256,6 +5363,16 @@ MonoBehaviour:
   fleeRadius: 14
   fleeWeight: 18
   fleeSpeedBoost: 2
+  role: 0
+  huntRadius: 22
+  huntWeight: 6
+  eatDistance: 1.5
+  chaseSpeedBoost: 1.6
+  predatorFleeRadius: 12
+  predatorFleeWeight: 22
+  reproduce: 1
+  targetPopulation: 40
+  reproduceInterval: 3
   members: []
 --- !u!4 &393491937
 Transform:
@@ -8228,6 +8345,109 @@ Transform:
   - {fileID: 1031013404}
   m_Father: {fileID: 1020474395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &639526836
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_Name
+      value: SK_HammerHead_Shark (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.072
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 21.836
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -47.544
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.20760907
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9782119
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 203.965
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 639526838}
+  m_SourcePrefab: {fileID: 100100000, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+--- !u!1 &639526837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+  m_PrefabInstance: {fileID: 639526836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &639526838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639526837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3990e2224e35174408cb877d6b05c1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PredatorFish
+  cruiseSpeed: 1
+  huntSpeed: 10
+  minSpeed: 1
+  speedChange: 6
+  turnRate: 2.5
+  huntTurnRate: 4.5
+  avoidTurnRate: 6
+  wanderJitter: 0.6
+  homeCenter: {fileID: 0}
+  wanderRadius: 40
+  canHunt: 0
+  timeToGetHungry: 8
+  huntRadius: 25
+  eatDistance: 2
+  satiatedDuration: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  avoidDistance: 4
+  avoidSphereRadius: 1
+  avoidWeight: 10
+  waterSurfaceY: 40
+  surfaceMargin: 4
+  surfaceWeight: 6
+  steerWeight: 3
+  boundsWeight: 3
 --- !u!1 &645032040
 GameObject:
   m_ObjectHideFlags: 0
@@ -8812,6 +9032,109 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1030998074, guid: abc00000000013213164848162479499, type: 3}
   m_PrefabInstance: {fileID: 684847113}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &687917695
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_Name
+      value: SK_HammerHead_Shark
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.887
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 41.771
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.20760907
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9782119
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 203.965
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 687917697}
+  m_SourcePrefab: {fileID: 100100000, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+--- !u!1 &687917696 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+  m_PrefabInstance: {fileID: 687917695}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &687917697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687917696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3990e2224e35174408cb877d6b05c1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PredatorFish
+  cruiseSpeed: 1
+  huntSpeed: 10
+  minSpeed: 1
+  speedChange: 6
+  turnRate: 2.5
+  huntTurnRate: 4.5
+  avoidTurnRate: 6
+  wanderJitter: 0.6
+  homeCenter: {fileID: 0}
+  wanderRadius: 40
+  canHunt: 0
+  timeToGetHungry: 8
+  huntRadius: 25
+  eatDistance: 2
+  satiatedDuration: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  avoidDistance: 4
+  avoidSphereRadius: 1
+  avoidWeight: 10
+  waterSurfaceY: 40
+  surfaceMargin: 4
+  surfaceWeight: 6
+  steerWeight: 3
+  boundsWeight: 3
 --- !u!4 &698045436 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1030996581, guid: abc00000000001927085584903415430, type: 3}
@@ -10213,7 +10536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 840327159}
   m_Layer: 0
-  m_Name: ---------Bancs de poissons-------- (1)
+  m_Name: ---------Bancs de poissons--------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10970,6 +11293,16 @@ MonoBehaviour:
   fleeRadius: 14
   fleeWeight: 18
   fleeSpeedBoost: 2
+  role: 0
+  huntRadius: 22
+  huntWeight: 6
+  eatDistance: 1.5
+  chaseSpeedBoost: 1.6
+  predatorFleeRadius: 12
+  predatorFleeWeight: 22
+  reproduce: 1
+  targetPopulation: 40
+  reproduceInterval: 3
   members: []
 --- !u!4 &914440677
 Transform:
@@ -88924,7 +89257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1229381099
 Transform:
   m_ObjectHideFlags: 0
@@ -92126,8 +92459,20 @@ PrefabInstance:
       value: -1.719
       objectReference: {fileID: 0}
     - target: {fileID: 6762909906458486358, guid: 6d3b6fa7ced7e0249bb3beb8dd9edcdf, type: 3}
+      propertyPath: yawSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762909906458486358, guid: 6d3b6fa7ced7e0249bb3beb8dd9edcdf, type: 3}
+      propertyPath: pitchSpeed
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762909906458486358, guid: 6d3b6fa7ced7e0249bb3beb8dd9edcdf, type: 3}
       propertyPath: invertPitch
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6762909906458486358, guid: 6d3b6fa7ced7e0249bb3beb8dd9edcdf, type: 3}
+      propertyPath: thrustPower
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -92617,6 +92962,16 @@ MonoBehaviour:
   fleeRadius: 14
   fleeWeight: 18
   fleeSpeedBoost: 2
+  role: 0
+  huntRadius: 22
+  huntWeight: 6
+  eatDistance: 1.5
+  chaseSpeedBoost: 1.6
+  predatorFleeRadius: 12
+  predatorFleeWeight: 22
+  reproduce: 1
+  targetPopulation: 40
+  reproduceInterval: 3
   members: []
 --- !u!4 &1498673206
 Transform:
@@ -96462,6 +96817,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000001930020387440725891, type: 3}
+--- !u!1 &1735832017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1735832018}
+  m_Layer: 0
+  m_Name: ---------sharks--------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1735832018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735832017}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.3705688, y: 27.50996, z: -32.82609}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1737287869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97627,6 +98013,109 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1030997528, guid: abc00000000001940982943149213518, type: 3}
   m_PrefabInstance: {fileID: 1901608879}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1905050236
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_Name
+      value: SK_HammerHead_Shark (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.182
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 39.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.993
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.45379382
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8911067
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 126.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1905050238}
+  m_SourcePrefab: {fileID: 100100000, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+--- !u!1 &1905050237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+  m_PrefabInstance: {fileID: 1905050236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1905050238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905050237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3990e2224e35174408cb877d6b05c1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PredatorFish
+  cruiseSpeed: 1
+  huntSpeed: 10
+  minSpeed: 1
+  speedChange: 6
+  turnRate: 2.5
+  huntTurnRate: 4.5
+  avoidTurnRate: 6
+  wanderJitter: 0.6
+  homeCenter: {fileID: 0}
+  wanderRadius: 40
+  canHunt: 0
+  timeToGetHungry: 8
+  huntRadius: 25
+  eatDistance: 2
+  satiatedDuration: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  avoidDistance: 4
+  avoidSphereRadius: 1
+  avoidWeight: 10
+  waterSurfaceY: 40
+  surfaceMargin: 4
+  surfaceWeight: 6
+  steerWeight: 3
+  boundsWeight: 3
 --- !u!1 &1908009412
 GameObject:
   m_ObjectHideFlags: 0
@@ -98629,6 +99118,16 @@ MonoBehaviour:
   fleeRadius: 14
   fleeWeight: 18
   fleeSpeedBoost: 2
+  role: 0
+  huntRadius: 22
+  huntWeight: 6
+  eatDistance: 1.5
+  chaseSpeedBoost: 1.6
+  predatorFleeRadius: 12
+  predatorFleeWeight: 22
+  reproduce: 1
+  targetPopulation: 40
+  reproduceInterval: 3
   members: []
 --- !u!1 &1983851937
 GameObject:
@@ -100351,7 +100850,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4732755664829696694
 Transform:
   m_ObjectHideFlags: 0
@@ -117618,3 +118117,8 @@ SceneRoots:
   - {fileID: 1498673206}
   - {fileID: 393491937}
   - {fileID: 914440677}
+  - {fileID: 1735832018}
+  - {fileID: 687917695}
+  - {fileID: 198268865}
+  - {fileID: 639526836}
+  - {fileID: 1905050236}
