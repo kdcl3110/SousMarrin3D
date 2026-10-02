@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4565728512136457287
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_Name
+      value: SK_predator_Shark Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.887
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 41.771
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.20760907
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9782119
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 203.965
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349940304291889433, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5448167559934332853}
+  m_SourcePrefab: {fileID: 100100000, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+--- !u!1 &1903344503635408868 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+  m_PrefabInstance: {fileID: 4565728512136457287}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5448167559934332853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903344503635408868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3990e2224e35174408cb877d6b05c1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PredatorFish
+  cruiseSpeed: 1
+  huntSpeed: 10
+  minSpeed: 1
+  speedChange: 6
+  turnRate: 2.5
+  huntTurnRate: 4.5
+  avoidTurnRate: 6
+  wanderJitter: 0.6
+  homeCenter: {fileID: 0}
+  wanderRadius: 40
+  canHunt: 0
+  timeToGetHungry: 8
+  huntRadius: 25
+  eatDistance: 2
+  satiatedDuration: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  avoidDistance: 4
+  avoidSphereRadius: 1
+  avoidWeight: 10
+  waterSurfaceY: 40
+  surfaceMargin: 4
+  surfaceWeight: 6
+  steerWeight: 3
+  boundsWeight: 3

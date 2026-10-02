@@ -22,6 +22,8 @@ public class SubmarineController : MonoBehaviour
     [Header("Puissance de pilotage")]
     [Tooltip("Poussée avant (contrôlée par la manette des gaz).")]
     public float thrustPower = 8f;
+    [Tooltip("Vitesse MAXIMALE du sous-marin (m/s). Baisse-la pour un pilotage plus lent et confortable.")]
+    public float maxSpeed = 5f;
     [Tooltip("Vitesse de tangage (°/s) — piquer / cabrer.")]
     public float pitchSpeed = 30f;
     [Tooltip("Vitesse de rotation cap (°/s) — tourner à gauche/droite.")]
@@ -57,10 +59,21 @@ public class SubmarineController : MonoBehaviour
     [Tooltip("Permet de piloter au clavier si aucun joystick (I/K tangage, J/L cap, U/O gaz, R recentrer).")]
     public bool enableKeyboardFallback = true;
 
+    [Header("Direction")]
+    [Tooltip("Pencher le manche gauche/droite fait TOURNER le sous-marin (en plus de la torsion). Plus intuitif sous l'eau.")]
+    public bool steerWithLean = true;
+    [Tooltip("Coche si pencher à gauche fait tourner à droite (inverse le sens).")]
+    public bool invertLeanSteer = false;
+
+    // --- Valeurs d'entrée exposées (pour le manche virtuel qui bouge dans le cockpit) ---
+    public float PitchInput => pitchAxis;   // manche avant/arrière
+    public float LeanInput  => rollAxis;    // manche gauche/droite
+    public float TwistInput => twistAxis;   // torsion du manche
+
     // --- État interne ---
     Rigidbody rb;
     float currentPitch, currentYaw, currentRoll;
-    float pitchAxis, yawAxis, rollAxis, throttleInput;
+    float pitchAxis, yawAxis, rollAxis, twistAxis, throttleInput;
     float kbThrottle;
     bool recenterRequested;
     AxisControl throttleControl;
@@ -101,7 +114,8 @@ public class SubmarineController : MonoBehaviour
         currentPitch += Dz(pitchDir) * pitchSpeed * Time.fixedDeltaTime;
         currentPitch  = Mathf.Clamp(currentPitch, -maxPitch, maxPitch);
 
-        float targetRoll = -Dz(rollAxis) * maxBank;
+        // Le sous-marin "penche dans le tournant" : l'inclinaison visuelle suit le virage.
+        float targetRoll = -Dz(yawAxis) * maxBank;
         currentRoll = Mathf.MoveTowards(currentRoll, targetRoll, bankReturnSpeed * Time.fixedDeltaTime);
 
         Quaternion target = Quaternion.Euler(currentPitch, currentYaw, currentRoll);
@@ -110,11 +124,15 @@ public class SubmarineController : MonoBehaviour
         // --- Poussée avant (inertie via le Rigidbody) ---
         float thrust01 = Mathf.Clamp01(throttleInput);
         rb.AddRelativeForce(Vector3.forward * thrust01 * thrustPower, ForceMode.Acceleration);
+
+        // --- Plafond de vitesse ---
+        Vector3 v = rb.linearVelocity;            // ancienne API Unity : rb.velocity
+        if (v.magnitude > maxSpeed) rb.linearVelocity = v.normalized * maxSpeed;
     }
 
     void ReadInputs()
     {
-        pitchAxis = 0f; yawAxis = 0f; rollAxis = 0f;
+        pitchAxis = 0f; yawAxis = 0f; rollAxis = 0f; twistAxis = 0f;
         bool haveJoystickThrottle = false;
 
         var js = Joystick.current;
@@ -132,7 +150,7 @@ public class SubmarineController : MonoBehaviour
         if (js != null)
         {
             Vector2 stick = js.stick.ReadValue();
-            rollAxis  = stick.x;   // manche gauche/droite -> roulis
+            rollAxis  = stick.x;   // manche gauche/droite -> sert à TOURNER (voir plus bas)
             pitchAxis = stick.y;   // manche avant/arrière -> tangage
 
             // Cap : torsion du manche (contrôle 'rz' sur l'Extreme 3D Pro).
@@ -142,6 +160,14 @@ public class SubmarineController : MonoBehaviour
             {
                 float rawYaw = yawControl.ReadValue();
                 yawAxis = yawCenteredAtZero ? (rawYaw * 2f - 1f) : rawYaw; // 0..1 -> -1..1
+                twistAxis = yawAxis;   // torsion seule (pour le manche visuel), avant d'y ajouter la penchée
+            }
+
+            // Pencher le manche gauche/droite tourne AUSSI le sous-marin (en plus de la torsion).
+            if (steerWithLean)
+            {
+                float lean = invertLeanSteer ? -rollAxis : rollAxis;
+                yawAxis = Mathf.Clamp(yawAxis + lean, -1f, 1f);
             }
 
             // Gaz : manette des gaz (contrôle 'slider').
@@ -173,8 +199,8 @@ public class SubmarineController : MonoBehaviour
             var k = Keyboard.current;
             if (k.iKey.isPressed) pitchAxis = 1f;
             if (k.kKey.isPressed) pitchAxis = -1f;
-            if (k.lKey.isPressed) yawAxis = 1f;
-            if (k.jKey.isPressed) yawAxis = -1f;
+            if (k.lKey.isPressed) { yawAxis = 1f; twistAxis = 1f; }
+            if (k.jKey.isPressed) { yawAxis = -1f; twistAxis = -1f; }
             if (k.oKey.isPressed) kbThrottle += Time.deltaTime;
             if (k.uKey.isPressed) kbThrottle -= Time.deltaTime;
             kbThrottle = Mathf.Clamp01(kbThrottle);
