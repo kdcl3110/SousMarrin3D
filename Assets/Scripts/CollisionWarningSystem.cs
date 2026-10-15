@@ -46,6 +46,12 @@ public class CollisionWarningSystem : MonoBehaviour
     bool blinkOn;
     MaterialPropertyBlock mpb;
 
+    // Racine du sous-marin : sert à ignorer SES PROPRES colliders (coque, cockpit...)
+    // sinon les rayons, partant du centre du sous-marin, touchent le sous-marin lui-même
+    // à distance ~0 et l'alarme hurle en permanence.
+    Transform selfRoot;
+    readonly RaycastHit[] hitBuffer = new RaycastHit[16];
+
     // Directions de sonde (en local) : avant + cône + côtés + bas (terrain).
     static readonly Vector3[] dirs = {
         Vector3.forward, Vector3.back, Vector3.left, Vector3.right, Vector3.down, Vector3.up,
@@ -55,6 +61,7 @@ public class CollisionWarningSystem : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        selfRoot = transform.root;   // tout ce qui appartient au sous-marin descend de là
         mpb = new MaterialPropertyBlock();
         foreach (var r in warningRenderers) if (r) r.material.EnableKeyword("_EMISSION");
         SetLights(false, 0f);
@@ -73,9 +80,9 @@ public class CollisionWarningSystem : MonoBehaviour
             // Portée réduite sur les directions qui ne sont pas vers l'avant (selon forwardBias).
             float align = Vector3.Dot(wdir, fwd) * 0.5f + 0.5f;         // 0..1
             float range = warningDistance * Mathf.Lerp(1f, align, forwardBias);
-            if (Physics.Raycast(transform.position, wdir, out RaycastHit hit, range,
-                                obstacleMask, QueryTriggerInteraction.Ignore))
-                if (hit.distance < minDist) minDist = hit.distance;
+
+            float hitDist = CastIgnoringSelf(transform.position, wdir, range);
+            if (hitDist >= 0f && hitDist < minDist) minDist = hitDist;
         }
 
         // --- Niveau d'alerte 0..1 ---
@@ -105,6 +112,25 @@ public class CollisionWarningSystem : MonoBehaviour
             alarmSource.volume = WarningLevel;
             alarmSource.pitch = Mathf.Lerp(0.9f, 1.4f, WarningLevel);
         }
+    }
+
+    /// <summary>
+    /// Lance un rayon mais IGNORE les colliders du sous-marin lui-même.
+    /// Renvoie la distance du plus proche obstacle EXTERNE, ou -1 si rien.
+    /// </summary>
+    float CastIgnoringSelf(Vector3 origin, Vector3 dir, float range)
+    {
+        int n = Physics.RaycastNonAlloc(origin, dir, hitBuffer, range,
+                                        obstacleMask, QueryTriggerInteraction.Ignore);
+        float best = -1f;
+        for (int i = 0; i < n; i++)
+        {
+            var h = hitBuffer[i];
+            // Collider qui fait partie du sous-marin (coque, cockpit, manche...) -> on ignore.
+            if (selfRoot != null && h.collider.transform.IsChildOf(selfRoot)) continue;
+            if (best < 0f || h.distance < best) best = h.distance;
+        }
+        return best;
     }
 
     void SetLights(bool on, float level)
