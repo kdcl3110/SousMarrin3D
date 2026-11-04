@@ -61,6 +61,7 @@ public class MotionPlatformForceSeat : MonoBehaviour
     MotionTelemetry telemetry;
     ForceSeatMI fsmi;
     FSMI_TopTablePositionPhysical pos;
+    FSMI_TopTablePositionPhysical frozenPos;
     bool active;
 
     void Start()
@@ -105,25 +106,25 @@ public class MotionPlatformForceSeat : MonoBehaviour
 
         // --- Cibles : attitude du sous-marin, bornée (degrés) ---
         float pitchTarget = Mathf.Clamp((invertPitch ? -m.pitch : m.pitch) * pitchScale, -maxTiltDeg, maxTiltDeg);
-        float rollTarget  = Mathf.Clamp((invertRoll  ? -m.roll  : m.roll)  * rollScale,  -maxTiltDeg, maxTiltDeg);
+        float rollTarget = Mathf.Clamp((invertRoll ? -m.roll : m.roll) * rollScale, -maxTiltDeg, maxTiltDeg);
 
         // --- Cibles : secousses (accélérations -> translation mm), bornées ---
         float surgeTarget = Mathf.Clamp(m.surge * surgeGain, -maxTranslateMm, maxTranslateMm);
-        float swayTarget  = Mathf.Clamp(m.sway  * swayGain,  -maxTranslateMm, maxTranslateMm);
+        float swayTarget = Mathf.Clamp(m.sway * swayGain, -maxTranslateMm, maxTranslateMm);
         float heaveTarget = Mathf.Clamp(m.heave * heaveGain, -maxTranslateMm, maxTranslateMm);
 
         // --- Lissage : on glisse doucement vers la cible au lieu de sauter dessus ---
         sPitch = Mathf.Lerp(sPitch, pitchTarget, t);
-        sRoll  = Mathf.Lerp(sRoll,  rollTarget,  t);
+        sRoll = Mathf.Lerp(sRoll, rollTarget, t);
         sSurge = Mathf.Lerp(sSurge, surgeTarget, t);
-        sSway  = Mathf.Lerp(sSway,  swayTarget,  t);
+        sSway = Mathf.Lerp(sSway, swayTarget, t);
         sHeave = Mathf.Lerp(sHeave, heaveTarget, t);
 
         pos.pitch = sPitch * Mathf.Deg2Rad;
-        pos.roll  = sRoll  * Mathf.Deg2Rad;
-        pos.yaw   = 0f;   // on ne verse pas le cap sur la plateforme (confort)
+        pos.roll = sRoll * Mathf.Deg2Rad;
+        pos.yaw = 0f;   // on ne verse pas le cap sur la plateforme (confort)
         pos.surge = sSurge;
-        pos.sway  = sSway;
+        pos.sway = sSway;
         pos.heave = sHeave;
 
         // --- VIBRATIONS MOTEUR : fines oscillations, ajoutées APRÈS le lissage,
@@ -136,12 +137,18 @@ public class MotionPlatformForceSeat : MonoBehaviour
                 float phase = Time.time * vibrationFrequency * 2f * Mathf.PI;
                 // deux fréquences mêlées -> texture plus "moteur" que sinus pur
                 float vib = (Mathf.Sin(phase) + 0.5f * Mathf.Sin(phase * 1.9f)) * vibrationAmplitudeMm * speedFactor;
-                pos.heave = Mathf.Clamp(pos.heave + vib,        -maxTranslateMm, maxTranslateMm);
+                pos.heave = Mathf.Clamp(pos.heave + vib, -maxTranslateMm, maxTranslateMm);
                 pos.surge = Mathf.Clamp(pos.surge + vib * 0.4f, -maxTranslateMm, maxTranslateMm);
             }
         }
 
         pos.state = (byte)FSMI_State.NO_PAUSE;
+        
+        if (ComfortStop.FreezeTelemetry) pos = frozenPos; else frozenPos = pos;
+        float k = ComfortStop.MotionScale;
+        pos.pitch *= k; pos.roll *= k; pos.yaw *= k;
+        pos.surge *= k; pos.sway *= k; pos.heave *= k;
+
         fsmi.SendTopTablePosPhy(ref pos);
     }
 
