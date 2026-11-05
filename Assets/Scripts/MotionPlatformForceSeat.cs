@@ -143,6 +143,16 @@ public class MotionPlatformForceSeat : MonoBehaviour
         }
 
         pos.state = (byte)FSMI_State.NO_PAUSE;
+
+        // ====== pour a méliorer la plateforme
+        pos.pitch += MotionCueEnhancer.ExtraPitch;
+        pos.roll += MotionCueEnhancer.ExtraRoll;
+        pos.heave += MotionCueEnhancer.ExtraHeave;
+
+        float lim = maxTiltDeg * Mathf.Deg2Rad;
+        pos.pitch = Mathf.Clamp(pos.pitch, -lim, lim);
+        pos.roll = Mathf.Clamp(pos.roll, -lim, lim);
+        // fin
         
         if (ComfortStop.FreezeTelemetry) pos = frozenPos; else frozenPos = pos;
         float k = ComfortStop.MotionScale;
