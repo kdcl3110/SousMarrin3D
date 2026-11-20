@@ -278,7 +278,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
 			#pragma shader_feature_local _VERTEXANIMATION_ON_ON
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -941,7 +941,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
             #endif
 
 			#pragma shader_feature_local _VERTEXANIMATION_ON_ON
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -1312,7 +1312,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
             #endif
 
 			#pragma shader_feature_local _VERTEXANIMATION_ON_ON
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -1655,7 +1655,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#pragma shader_feature_local _VERTEXANIMATION_ON_ON
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			struct Attributes
@@ -2037,7 +2037,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#pragma shader_feature_local _VERTEXANIMATION_ON_ON
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			struct Attributes
@@ -2365,7 +2365,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -2749,7 +2749,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -3215,7 +3215,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			struct Attributes
@@ -3484,7 +3484,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			struct Attributes
@@ -3757,7 +3757,7 @@ Shader "Davis3D/OceanEnviroment/Shader_Jellyfish"
 
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MotionVectorsCommon.hlsl"
 
-			#include "Assets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
+			#include "Assets/ImportesAssets/Davis3D/OceanEnvironmentPack/Shaders/Functions/Davis3DUtils.cginc"
 
 
 			struct Attributes

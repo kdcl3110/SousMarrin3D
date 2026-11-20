@@ -15,6 +15,15 @@ public class FishBoid : MonoBehaviour
     [HideInInspector] public bool isAlive = true;
     public State state { get; private set; } = State.Calm;
 
+    // Optimisation : la détection d'obstacles (SphereCast, la partie la plus coûteuse)
+    // n'est faite qu'une image sur 3, en décalé d'un poisson à l'autre. Le résultat est réutilisé
+    // entre deux mesures : comportement identique à l'œil, coût physique divisé par 3.
+    const int AvoidEvery = 3;
+    int avoidOffset;
+    Vector3 cachedAvoid;
+
+    void OnEnable() { avoidOffset = Random.Range(0, AvoidEvery); }
+
     void Update()
     {
         if (manager == null || !isAlive) return;
@@ -95,17 +104,22 @@ public class FishBoid : MonoBehaviour
         if (toCenter.magnitude > manager.zoneRadius)
             acceleration += toCenter.normalized * manager.boundsWeight;
 
-        if (velocity.sqrMagnitude > 0.001f)
+        if ((Time.frameCount + avoidOffset) % AvoidEvery == 0)
         {
-            Vector3 dir = velocity.normalized;
-            if (Physics.SphereCast(transform.position, manager.avoidSphereRadius, dir,
-                                   out RaycastHit hit, manager.avoidDistance,
-                                   manager.obstacleMask, QueryTriggerInteraction.Ignore))
+            cachedAvoid = Vector3.zero;
+            if (velocity.sqrMagnitude > 0.001f)
             {
-                float s = 1f - (hit.distance / manager.avoidDistance);
-                acceleration += hit.normal * manager.avoidWeight * s;
+                Vector3 dir = velocity.normalized;
+                if (Physics.SphereCast(transform.position, manager.avoidSphereRadius, dir,
+                                       out RaycastHit hit, manager.avoidDistance,
+                                       manager.obstacleMask, QueryTriggerInteraction.Ignore))
+                {
+                    float s = 1f - (hit.distance / manager.avoidDistance);
+                    cachedAvoid = hit.normal * manager.avoidWeight * s;
+                }
             }
         }
+        acceleration += cachedAvoid;
 
         float distToSurface = manager.waterSurfaceY - transform.position.y;
         if (distToSurface < manager.surfaceMargin)

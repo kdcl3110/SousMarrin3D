@@ -1123,6 +1123,8 @@ MonoBehaviour:
   disableShadowCasting: 1
   disableShadowReceiving: 0
   cullScreenSize: 0.01
+  maxCullSize: 3
+  crossFade: 1
 --- !u!1001 &27502384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5586,7 +5588,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: c00c4688235c1964aa4078737e4c0224, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5630,7 +5632,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -39042,6 +39044,210 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1030996581, guid: abc00000000001927085584903415430, type: 3}
   m_PrefabInstance: {fileID: 714453927}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &715234894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715234896}
+  - component: {fileID: 715234895}
+  m_Layer: 0
+  m_Name: FaunaZones
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &715234895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715234894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 850edd635df11c34bb340c4bab059d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FaunaZoneManager
+  submarine: {fileID: 829839754}
+  zones:
+  - name: "1 \xB7 Le Lagon"
+    zMin: -68.00043
+    zMax: -38.24043
+    entries:
+    - label: Chirurgiens bleus
+      kind: 0
+      prefab: {fileID: 3008461439779092361, guid: 4f5f490f2759ff74cbf84de8fd2a0bd0, type: 3}
+      groups: 2
+      perGroup: 35
+      schoolRadius: 10
+      prey: 0
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+    - label: Medakas
+      kind: 0
+      prefab: {fileID: 8673561817858885712, guid: b8a9cae29da8f4a4997ad0e4f3bd1a5b, type: 3}
+      groups: 1
+      perGroup: 60
+      schoolRadius: 10
+      prey: 0
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+  - name: "2 \xB7 Le Jardin des Anges"
+    zMin: -38.24043
+    zMax: -4.7604265
+    entries:
+    - label: Poissons-anges empereurs
+      kind: 0
+      prefab: {fileID: 4269938479806859708, guid: e7241636c12fd664894c4605f6df84f7, type: 3}
+      groups: 2
+      perGroup: 20
+      schoolRadius: 9
+      prey: 0
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+    - label: Chirurgiens bleus
+      kind: 0
+      prefab: {fileID: 3008461439779092361, guid: 4f5f490f2759ff74cbf84de8fd2a0bd0, type: 3}
+      groups: 1
+      perGroup: 30
+      schoolRadius: 10
+      prey: 0
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+  - name: "3 \xB7 La Cr\xEAte"
+    zMin: -4.7604265
+    zMax: 38.019573
+    entries:
+    - label: Grand banc de medakas
+      kind: 0
+      prefab: {fileID: 8673561817858885712, guid: b8a9cae29da8f4a4997ad0e4f3bd1a5b, type: 3}
+      groups: 2
+      perGroup: 70
+      schoolRadius: 12
+      prey: 0
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+    - label: "Requin l\xE9opard"
+      kind: 1
+      prefab: {fileID: 2933099381831737878, guid: b7574c866bb0f9843b2e455436849d86, type: 3}
+      groups: 2
+      perGroup: 0
+      schoolRadius: 10
+      prey: 0
+      hunts: 0
+      modelEuler: {x: -180, y: -90, z: -180}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+  - name: "4 \xB7 La For\xEAt bleue"
+    zMin: 38.019573
+    zMax: 82.65958
+    entries:
+    - label: "M\xE9duses"
+      kind: 2
+      prefab: {fileID: 4944642790967586399, guid: ab52eeb1fca8de844b17e76b07454dc7, type: 3}
+      groups: 3
+      perGroup: 10
+      schoolRadius: 10
+      prey: 0
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 2
+      overrideMaterial: {fileID: 0}
+    - label: Poissons-anges empereurs
+      kind: 0
+      prefab: {fileID: 4269938479806859708, guid: e7241636c12fd664894c4605f6df84f7, type: 3}
+      groups: 1
+      perGroup: 20
+      schoolRadius: 9
+      prey: 0
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+    - label: Medakas
+      kind: 0
+      prefab: {fileID: 8673561817858885712, guid: b8a9cae29da8f4a4997ad0e4f3bd1a5b, type: 3}
+      groups: 1
+      perGroup: 50
+      schoolRadius: 10
+      prey: 0
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+  - name: "5 \xB7 La Fosse aux requins"
+    zMin: 82.65958
+    zMax: 117.99957
+    entries:
+    - label: Requin-marteau
+      kind: 1
+      prefab: {fileID: 2681524528112556963, guid: b48421187a789c54dbb4a233876c806e, type: 3}
+      groups: 3
+      perGroup: 0
+      schoolRadius: 10
+      prey: 0
+      hunts: 1
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+    - label: Chirurgiens bleus (proies)
+      kind: 0
+      prefab: {fileID: 3008461439779092361, guid: 4f5f490f2759ff74cbf84de8fd2a0bd0, type: 3}
+      groups: 2
+      perGroup: 35
+      schoolRadius: 10
+      prey: 1
+      hunts: 0
+      modelEuler: {x: 0, y: 0, z: 0}
+      modelScale: 1
+      overrideMaterial: {fileID: 0}
+  xMin: -18.249962
+  xMax: 18.250057
+  waterSurfaceY: 58.8
+  minHeightAboveGround: 4
+  maxHeightAboveGround: 14
+  surfaceMargin: 8
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  clearance: 3
+  seed: 2026
+  activateDistance: 45
+  deactivateDistance: 55
+  checkInterval: 0.25
+  onZoneEntered:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &715234896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715234894}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &715631701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45229,7 +45435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &840327159
 Transform:
   m_ObjectHideFlags: 0
@@ -54950,6 +55156,8 @@ MonoBehaviour:
   disableShadowCasting: 1
   disableShadowReceiving: 0
   cullScreenSize: 0.01
+  maxCullSize: 3
+  crossFade: 1
 --- !u!1001 &1021638892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156110,7 +156318,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 4eaea10b9dfb7e044817b2938049c4d4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -156154,7 +156362,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -169667,7 +169875,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1708755302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171680,7 +171888,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1735832018
 Transform:
   m_ObjectHideFlags: 0
@@ -178928,6 +179136,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2284492168525026486, guid: 106c600f792664f4d984d3c3bb23d4a5, type: 3}
   m_PrefabInstance: {fileID: 1906338027}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1906534660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1906534662}
+  - component: {fileID: 1906534661}
+  m_Layer: 0
+  m_Name: AudioDebug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1906534661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906534660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b1ca9fe2120f0c49961e6a6c02f7baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioDebugLogger
+  interval: 3
+--- !u!4 &1906534662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906534660}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1908009412
 GameObject:
   m_ObjectHideFlags: 0
@@ -210293,3 +210546,5 @@ SceneRoots:
   - {fileID: 77933018}
   - {fileID: 868155580}
   - {fileID: 609796802}
+  - {fileID: 715234896}
+  - {fileID: 1906534662}
