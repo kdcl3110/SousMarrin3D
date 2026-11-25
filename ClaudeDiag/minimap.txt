@@ -1,0 +1,4 @@
+Terrain X[-23,25,23,25] Z[-68,00,118,00] Y[3,2,60,6]
+Sous-marin Submarine pos (-3.80, 48.38, 8.00)  XR Origin XR Origin (VR) œil (-4.612, 48.724, 9.175)
+Carte 2048x580  monde X[-27,25,27,25] Z[-71,00,121,00]
+Écran holographique 0,44 x 0,198 m  pos (-4.400, 48.477, 9.702)  distance 0,62 m  24° sous l'horizon  parent Cockpit3_InteriorDetails  échelle monde (0.440, 0.198, 1.000)

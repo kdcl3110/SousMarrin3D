@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_SeaWeed_B
-  m_Shader: {fileID: 4800000, guid: 0afffffc47128824a9a5b3304c99fadb, type: 3}
+  m_Shader: {fileID: 4800000, guid: e1b039076a9ff184c988631566ed6623, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:

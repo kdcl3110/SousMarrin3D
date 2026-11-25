@@ -1,0 +1,2 @@
+AVANT  recalibrage = 'trigger'  pause = 'button2'
+APRÈS  recalibrage = 'button2'  pause = 'trigger'  (appui pause : 0,5 s pour arrêter, 2,0 s pour reprendre)

@@ -1,0 +1,98 @@
+=== SIÈGE ET TÊTE (coordonnées locales au sous-marin) ===
+Submarine pos (-3.800, 48.380, 8.000) rot (359.2, 19.4, 16.1) scale (1.000, 1.000, 1.000)
+seatAnchor 'EyeAnchor' local (-1,020, 0,639, 0,842) fwd (0,000, 0,000, 1,000)
+XR Origin local (-1,020, 0,639, 0,842) fwd (-0,085, 0,036, 0,996) euler(local) (357.92, 355.11, 0.00)
+   Camera Offset local(sub) (-1,036, 1,765, 1,031) localPos (0.000, 1.118, 0.230) localEuler (0.0, 0.0, 0.0)
+   Main Camera local(sub) (-1,036, 1,765, 1,031) localPos (0.000, 0.000, 0.000) localEuler (0.0, 0.0, 0.0)
+   RequestedTrackingOriginMode Device  CameraYOffset 0
+Cockpit 'Cockpit3_WithInterior' local (-1,108, 0,148, 2,338) fwd (0,000, 0,000, 1,000) right (1,000, 0,007, 0,000) lossyScale (1.000, 1.000, 1.000)
+   Bounds tout le cockpit : centre (-1,108, 0,148, 2,338)
+   R 'Cockpit3_Body' centre (-1,108, 0,148, 2,338) taille (3.815, 2.103, 6.089)
+   R 'Cockpit3_Glass' centre (-1,111, 0,577, 0,824) taille (2.245, 1.063, 2.932)
+   R 'Cockpit3_Interior' centre (-1,109, 0,203, 0,878) taille (2.417, 1.741, 3.016)
+   R 'CockpitEquipments_FootStand-1' centre (-0,874, -0,399, 1,934) taille (0.246, 0.224, 0.270)
+   R 'CockpitEquipments_FootStand-2' centre (-1,334, -0,403, 1,934) taille (0.246, 0.224, 0.270)
+   R 'CockpitEquipments_HUD-1' centre (-1,109, 0,225, 1,697) taille (0.182, 0.068, 0.181)
+   R 'CockpitEquipments_HUD-2' centre (-1,111, 0,498, 1,568) taille (0.157, 0.166, 0.054)
+   R 'CockpitEquipments_Joystick2-Base' centre (-1,108, 0,125, 1,497) taille (0.093, 0.101, 0.106)
+   R 'CockpitEquipments_Joystick2-Handle' centre (-1,109, 0,208, 1,451) taille (0.189, 0.222, 0.218)
+   R 'CockpitEquipments_ScreenFrame-1' centre (-0,904, 0,298, 1,916) taille (0.404, 0.218, 0.313)
+   R 'CockpitEquipments_ScreenFrame-2' centre (-1,314, 0,295, 1,916) taille (0.404, 0.218, 0.313)
+   R 'CockpitEquipments_Stand' centre (-1,106, -0,157, 1,816) taille (0.698, 0.790, 0.905)
+   R 'CockpitEquipments_ThrottleContro1-Base' centre (-0,659, 0,019, 1,302) taille (0.147, 0.101, 0.121)
+   R 'CockpitEquipments_ThrottleControl1-Handle1' centre (-0,615, 0,099, 1,299) taille (0.145, 0.175, 0.161)
+   R 'CockpitEquipments_ThrottleControl1-Handle2' centre (-0,705, 0,098, 1,299) taille (0.145, 0.175, 0.161)
+   Axe avant cockpit (vers écrans) (0,000, 0,000, 1,000)  ;  angle entre axe cockpit et sub.forward 0,0°
+   Écart latéral siège ↔ axe central des écrans : 0,089 m (positif = siège à droite)
+
+=== SOUS-MARIN : Rigidbody et collisionneurs ===
+Rigidbody mass 1 drag 1 angDrag 1 kinematic False gravity True detection Discrete interp Interpolate constraints None
+   BoxCollider sur 'Collider1' (actif True, trigger False, layer Default) bounds centre (-1,105, -0,307, 2,314) taille (2.72, 0.95, 5.66)
+   BoxCollider sur 'Collider2' (actif True, trigger False, layer Default) bounds centre (-1,110, 0,368, 0,446) taille (1.69, 0.98, 2.08)
+
+=== DÉCOR : collisionneurs, statique, calques (par type) ===
+Prefab_RockSmall_B           total   22  collider   22 [MeshCollider]  batchingStatic   22  actifs   22  calques [Default]
+      ex. 'Prefab_RockSmall_B' parent 'Rocks' meshBounds (0.40, 0.33, 0.36) pivot→bas -0,16 scale (1.00, 1.00, 1.00) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Anemone                   total  512  collider  512 [SphereCollider]  batchingStatic  512  actifs  512  calques [Default]
+      ex. 'SM_Anemone' parent 'Anemone' meshBounds (0.38, 0.33, 0.41) pivot→bas -0,01 scale (1.50, 1.50, 1.50) shader 'Davis3D/OceanEnviroment/Shader_Seaweed' LOD True
+SM_Coral_A                   total  200  collider  200 [SphereCollider]  batchingStatic  200  actifs  200  calques [Default]
+      ex. 'SM_Coral_A_99' parent 'Coral_A' meshBounds (0.30, 0.27, 0.27) pivot→bas -0,01 scale (1.21, 1.21, 1.21) shader 'Davis3D/OceanEnviroment/Shader_SolidPlant' LOD True
+SM_Coral_B                   total  207  collider  207 [SphereCollider]  batchingStatic  207  actifs  207  calques [Default]
+      ex. 'SM_Coral_B_103' parent 'Coral_B' meshBounds (0.30, 0.27, 0.38) pivot→bas -0,01 scale (1.44, 1.44, 1.44) shader 'Davis3D/OceanEnviroment/Shader_SolidPlant' LOD True
+SM_Jellyfish                 total  186  collider    0 []  batchingStatic    0  actifs    0  calques [Default]
+      ex. 'SM_Jellyfish' parent 'Group_01' meshBounds (0.46, 0.27, 0.46) pivot→bas -0,12 scale (0.45, 0.45, 0.45) shader 'Davis3D/OceanEnviroment/Shader_Jellyfish' LOD True
+SM_Kelp_A                    total   88  collider    0 []  batchingStatic   88  actifs   88  calques [Default]
+      ex. 'SM_Kelp_A_32' parent 'Kelp_A' meshBounds (0.64, 4.10, 0.57) pivot→bas -0,06 scale (1.97, 1.97, 1.97) shader 'Davis3D/OceanEnviroment/Shader_Seaweed' LOD True
+SM_Kelp_B                    total   56  collider    0 []  batchingStatic   56  actifs   56  calques [Default]
+      ex. 'SM_Kelp_B_15' parent 'Kelp_B' meshBounds (0.66, 4.30, 0.71) pivot→bas -0,06 scale (2.29, 2.29, 2.29) shader 'Davis3D/OceanEnviroment/Shader_Seaweed' LOD True
+SM_LS                        total    3  collider    3 [MeshCollider]  batchingStatic    0  actifs    0  calques [Default]
+      ex. 'SM_LS_01' parent '-' meshBounds (4.23, 1.74, 1.12) pivot→bas -0,87 scale (1.20, 1.20, 1.20) shader 'Universal Render Pipeline/Lit' LOD True
+SM_Rock_A                    total  148  collider  148 [MeshCollider]  batchingStatic  148  actifs  148  calques [Default]
+      ex. 'SM_Rock_A_73' parent 'Rock_A' meshBounds (5.15, 2.40, 3.41) pivot→bas -1,25 scale (1.53, 1.78, 1.03) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Rock_A_Midsand            total   12  collider   12 [MeshCollider]  batchingStatic   12  actifs   12  calques [Default]
+      ex. 'SM_Rock_A_Midsand_1' parent 'Rock_A_Midsand' meshBounds (5.15, 2.40, 3.41) pivot→bas -1,25 scale (3.52, 3.52, 3.52) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Rock_A_Sandy              total   84  collider   84 [MeshCollider]  batchingStatic   84  actifs   84  calques [Default]
+      ex. 'SM_Rock_A_Sandy_0' parent 'Rock_A_Sandy' meshBounds (5.15, 2.40, 3.41) pivot→bas -1,25 scale (3.42, 3.42, 3.42) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Rock_B                    total  138  collider  138 [MeshCollider]  batchingStatic  138  actifs  138  calques [Default]
+      ex. 'SM_Rock_B_68' parent 'Rock_B' meshBounds (5.00, 3.16, 4.03) pivot→bas -0,73 scale (1.62, 1.62, 1.62) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Rock_B_Midsand            total    6  collider    6 [MeshCollider]  batchingStatic    6  actifs    6  calques [Default]
+      ex. 'SM_Rock_B_Midsand_0' parent 'Rock_B_Midsand' meshBounds (5.00, 3.16, 4.03) pivot→bas -0,73 scale (1.62, 1.62, 1.62) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Rock_B_Sandy              total   30  collider   30 [MeshCollider]  batchingStatic   30  actifs   30  calques [Default]
+      ex. 'SM_Rock_B_Sandy_13' parent 'Rock_B_Sandy' meshBounds (5.00, 3.16, 4.03) pivot→bas -0,73 scale (0.74, 0.74, 0.74) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Rock_C                    total   66  collider   66 [MeshCollider]  batchingStatic   66  actifs   66  calques [Default]
+      ex. 'SM_Rock_C_30' parent 'Rock_C' meshBounds (0.32, 0.28, 0.31) pivot→bas -0,14 scale (3.41, 3.41, 3.41) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Rock_C_MidSand            total   16  collider   16 [MeshCollider]  batchingStatic   16  actifs   16  calques [Default]
+      ex. 'SM_Rock_C_MidSand_7' parent 'Rock_C_MidSand' meshBounds (3.34, 4.01, 3.70) pivot→bas -1,67 scale (1.51, 1.51, 1.51) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_Rock_C_Sandy              total   14  collider   14 [MeshCollider]  batchingStatic   14  actifs   14  calques [Default]
+      ex. 'SM_Rock_C_Sandy_6' parent 'Rock_C_Sandy' meshBounds (3.34, 4.01, 3.70) pivot→bas -1,67 scale (1.92, 1.92, 1.92) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_RockSmall_A               total   18  collider   18 [MeshCollider]  batchingStatic   18  actifs   18  calques [Default]
+      ex. 'SM_RockSmall_A' parent 'Rocks' meshBounds (0.32, 0.28, 0.31) pivot→bas -0,14 scale (1.00, 1.00, 1.00) shader 'Davis3D/OceanEnviroment/Shader_Rock' LOD True
+SM_SeaSpongeGroup_Large_A    total   59  collider   59 [CapsuleCollider,SphereCollider]  batchingStatic   59  actifs   59  calques [Default]
+      ex. 'SM_SeaSpongeGroup_Large_A_24' parent 'SeaSpongeGroup_Large_A' meshBounds (0.42, 0.71, 0.41) pivot→bas -0,02 scale (2.95, 2.95, 2.95) shader 'Davis3D/OceanEnviroment/Shader_SolidPlant' LOD True
+SM_SeaSpongeGroup_Large_B    total   55  collider   55 [CapsuleCollider]  batchingStatic   55  actifs   55  calques [Default]
+      ex. 'SM_SeaSpongeGroup_Large_B_24' parent 'SeaSpongeGroup_Large_B' meshBounds (0.30, 0.70, 0.33) pivot→bas -0,05 scale (1.00, 1.00, 1.00) shader 'Davis3D/OceanEnviroment/Shader_SolidPlant' LOD True
+SM_SeaSpongeGroup_Small      total  184  collider  184 [MeshCollider]  batchingStatic  184  actifs  184  calques [Default]
+      ex. 'SM_SeaSpongeGroup_Small_88' parent 'SeaSpongeGroup_Small' meshBounds (0.22, 0.17, 0.19) pivot→bas -0,02 scale (1.00, 1.00, 1.00) shader 'Davis3D/OceanEnviroment/Shader_SolidPlant' LOD True
+SM_SeaWeed_Multi             total  376  collider    0 []  batchingStatic  376  actifs  376  calques [Default]
+      ex. 'SM_SeaWeed_Multi_77' parent 'SeaWeed_Multi' meshBounds (1.97, 1.07, 2.03) pivot→bas -0,06 scale (1.07, 1.07, 1.07) shader 'Davis3D/OceanEnviroment/Shader_Seaweed' LOD False
+SM_Seaweed_Single            total  358  collider    0 []  batchingStatic  358  actifs  358  calques [Default]
+      ex. 'SM_Seaweed_Single_172' parent 'Seaweed_Single' meshBounds (1.38, 1.05, 1.39) pivot→bas -0,06 scale (1.55, 1.55, 1.55) shader 'Davis3D/OceanEnviroment/Shader_Seaweed' LOD True
+SM_Shell_A                   total    1  collider    1 [MeshCollider]  batchingStatic    1  actifs    1  calques [Default]
+      ex. 'SM_Shell_A' parent 'Environment' meshBounds (0.54, 0.23, 0.54) pivot→bas 0,00 scale (2.46, 2.46, 2.46) shader 'Universal Render Pipeline/Lit' LOD True
+SM_Shell_B                   total    1  collider    1 [MeshCollider]  batchingStatic    1  actifs    1  calques [Default]
+      ex. 'SM_Shell_B' parent 'Environment' meshBounds (0.54, 0.23, 0.54) pivot→bas 0,00 scale (-2.46, 2.46, 2.46) shader 'Universal Render Pipeline/Lit' LOD True
+
+=== FAUNE (prefabs) ===
+1 · Le Lagon / Chirurgiens bleus (School) prefab 'School_BlueTang1' colliders 0 rigidbodies 0 scripts [BoidsManager]
+1 · Le Lagon / Medakas (School) prefab 'School_Clownfish1' colliders 0 rigidbodies 0 scripts [BoidsManager]
+2 · Le Jardin des Anges / Poissons-anges empereurs (School) prefab 'School_EmperorAngelfish_swim1' colliders 0 rigidbodies 0 scripts [BoidsManager]
+2 · Le Jardin des Anges / Chirurgiens bleus (School) prefab 'School_BlueTang1' colliders 0 rigidbodies 0 scripts [BoidsManager]
+3 · La Crête / Grand banc de medakas (School) prefab 'School_Clownfish1' colliders 0 rigidbodies 0 scripts [BoidsManager]
+3 · La Crête / Requin léopard (Solitary) prefab 'SM_LeopardShark' colliders 1 rigidbodies 0 scripts []
+4 · La Forêt bleue / Méduses (Jellyfish) prefab 'SM_Jellyfish' colliders 0 rigidbodies 0 scripts []
+4 · La Forêt bleue / Poissons-anges empereurs (School) prefab 'School_EmperorAngelfish_swim1' colliders 0 rigidbodies 0 scripts [BoidsManager]
+4 · La Forêt bleue / Medakas (School) prefab 'School_Clownfish1' colliders 0 rigidbodies 0 scripts [BoidsManager]
+5 · La Fosse aux requins / Requin-marteau (Solitary) prefab 'SK_HammerHead_Shark' colliders 1 rigidbodies 0 scripts []
+5 · La Fosse aux requins / Chirurgiens bleus (proies) (School) prefab 'School_BlueTang1' colliders 0 rigidbodies 0 scripts [BoidsManager]
+Physics : defaultContactOffset 0,01 bounce 2 fixedDelta 0,01999999
+Calques utilisés : 0:Default, 1:TransparentFX, 2:Ignore Raycast, 4:Water, 5:UI, 6:ComfortUI

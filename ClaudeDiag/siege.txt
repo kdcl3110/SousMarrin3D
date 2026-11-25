@@ -1,0 +1,5 @@
+Axe central du cockpit x = -1,109
+AVANT  XR Origin local (-1.020, 0.639, 0.842) euler (357.92, 355.11, 0.00)  œil en jeu (-1.040, 0.648, 1.071)  seatAnchor (-1.020, 0.639, 0.842)
+       écart latéral de l'œil : 6,9 cm, lacet du rig -4,9°, tangage -2,1°
+Écran mini-map recentré : local (-1.109, 0.387, 1.407)  distance œil 0,42 m
+APRÈS  XR Origin local (-1.109, 0.648, 0.841) euler (0.00, 0.00, 0.00)  œil en jeu (-1.109, 0.648, 1.071)  seatAnchor (-1.109, 0.648, 1.071)

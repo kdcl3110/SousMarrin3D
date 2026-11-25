@@ -60,8 +60,12 @@ public class FishBoid : MonoBehaviour
         // Fuite du sous-marin (tous les rôles)
         if (manager.submarine != null)
         {
-            Vector3 toSub = manager.submarine.position - transform.position;
-            float subDist = toSub.magnitude;
+            // distance à la COQUE (et pas au pivot du sous-marin, décalé de plusieurs mètres)
+            Vector3 subPoint = manager.submarine.position;
+            var hullRef = VegetationPush.Instance;
+            if (hullRef) hullRef.ClosestOnAxis(transform.position, out subPoint);
+            Vector3 toSub = subPoint - transform.position;
+            float subDist = Mathf.Max(0f, toSub.magnitude - (hullRef ? hullRef.radius : 0f));
             if (subDist < manager.fleeRadius)
             {
                 float s = Mathf.Clamp01(1f - subDist / manager.fleeRadius);
@@ -142,6 +146,22 @@ public class FishBoid : MonoBehaviour
 
         // ================= DÉPLACEMENT + ORIENTATION =================================
         transform.position += velocity * Time.deltaTime;
+
+        // ================= JAMAIS À TRAVERS LA COQUE =================================
+        var hull = VegetationPush.Instance;
+        if (hull)
+        {
+            Vector3 push = hull.PushOut(transform.position, manager.avoidSphereRadius + 0.25f);
+            if (push != Vector3.zero)
+            {
+                transform.position += push;
+                Vector3 nrm = push.normalized;
+                float vn = Vector3.Dot(velocity, nrm);
+                if (vn < 0f) velocity -= nrm * vn;                 // plus de vitesse vers la coque
+                velocity += nrm * manager.maxSpeed * 0.5f;         // petit sursaut de fuite
+            }
+        }
+
         if (velocity != Vector3.zero)
         {
             Quaternion target = Quaternion.LookRotation(velocity);

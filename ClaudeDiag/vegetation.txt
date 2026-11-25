@@ -1,0 +1,6 @@
+Matériaux passés au shader interactif : 9 (M_Anemone_Multicolor, M_SeaWeed_B, M_Anemone_Multicolor_LOD, M_SeaWeed_A, M_Kelp_Stem, M_Kelp_B, M_Kelp_B_LOD, M_Kelp_A_LOD, M_Kelp_A)
+Rendus de plantes souples : 4944, retirés du regroupement statique : 0
+Collisions d'anémones désactivées : 0
+Coque : capsule A (-1.11, 0.15, 0.03) B (-1.11, 0.15, 4.65) rayon 0,82 marge de contact 0,08
+Œil du pilote à 0,50 m de l'axe → les plantes restent à plus de 0,40 m du visage
+Rendus de contrôle sur 'SM_Kelp_A_11' (hauteur 7,9 m) : sans flexion, puis sommet déplacé de 25 % et 60 % de la hauteur → vegetation_flexion_25.png vegetation_flexion_60.png 

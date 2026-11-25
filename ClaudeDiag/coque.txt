@@ -1,0 +1,6 @@
+Collision 'Collider1' (BoxCollider) → matériau glissant
+Collision 'Collider2' (BoxCollider) → matériau glissant
+Collision 'Coque_Collision' (MeshCollider) → matériau glissant
+Coque (repère sous-marin) : centre (-1.11, 0.15, 2.34)  demi-tailles (0.81, 0.82, 2.88)
+Bulle de végétation recalée : A (-1.11, 0.15, 0.03)  B (-1.11, 0.15, 4.65)  rayon 0,82
+Œil à 0,50 m de l'axe → plantes repoussées à plus de 1,14 m du visage

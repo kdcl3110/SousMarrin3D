@@ -48,6 +48,10 @@ public class PredatorFish : MonoBehaviour
     public float avoidDistance = 8f;
     public float avoidSphereRadius = 1.2f;
     public float avoidWeight = 12f;
+    [Tooltip("Distance (m) à la coque du sous-marin à partir de laquelle le poisson s'en écarte.")]
+    public float subAvoidDistance = 6f;
+    [Tooltip("Demi-taille du corps (m) : le poisson reste au moins à cette distance de la coque.")]
+    public float bodyRadius = 1.4f;
 
     [Header("Surface de l'eau")]
     public float waterSurfaceY = 0f;
@@ -157,6 +161,21 @@ public class PredatorFish : MonoBehaviour
             desired += Vector3.down * surfaceWeight * s;
         }
 
+        // ---------- CONTOURNER LE SOUS-MARIN (il peut foncer sur le requin) ----------
+        var hullRef = VegetationPush.Instance;
+        if (hullRef)
+        {
+            hullRef.ClosestOnAxis(transform.position, out Vector3 hp);
+            Vector3 away = transform.position - hp;
+            float gap = away.magnitude - hullRef.radius;
+            if (gap < subAvoidDistance)
+            {
+                float s = Mathf.Clamp01(1f - gap / subAvoidDistance);
+                desired += away.normalized * avoidWeight * 1.5f * s;
+                avoiding = true;
+            }
+        }
+
         // ---------- SEEK : tourner la direction de nage vers la cible (virage borné) ----------
         Vector3 curDir = (velocity.sqrMagnitude > 0.0001f) ? velocity.normalized : transform.forward;
         Vector3 desiredDir = (desired.sqrMagnitude > 0.0001f) ? desired.normalized : curDir;
@@ -171,6 +190,17 @@ public class PredatorFish : MonoBehaviour
 
         // ---------- DÉPLACEMENT + ORIENTATION ----------
         transform.position += velocity * dt;
+        if (hullRef)
+        {
+            Vector3 push = hullRef.PushOut(transform.position, bodyRadius);
+            if (push != Vector3.zero)
+            {
+                transform.position += push;
+                Vector3 nrm = push.normalized;
+                float vn = Vector3.Dot(velocity, nrm);
+                if (vn < 0f) velocity -= nrm * vn;
+            }
+        }
         if (velocity != Vector3.zero)
             transform.rotation = Quaternion.Slerp(transform.rotation,
                 Quaternion.LookRotation(velocity, Vector3.up), 8f * dt);

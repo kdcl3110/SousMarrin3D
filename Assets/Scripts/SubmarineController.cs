@@ -59,6 +59,12 @@ public class SubmarineController : MonoBehaviour
     [Tooltip("Permet de piloter au clavier si aucun joystick (I/K tangage, J/L cap, U/O gaz, R recentrer).")]
     public bool enableKeyboardFallback = true;
 
+    [Header("Recentrage automatique")]
+    [Tooltip("Place automatiquement les yeux du joueur sur le repère du siège au démarrage, quelle que soit sa position réelle sur la chaise.")]
+    public bool recenterOnStart = true;
+    [Tooltip("Délai avant ce recentrage (le temps que le casque soit suivi).")]
+    public float recenterDelay = 1.0f;
+
     [Header("Direction")]
     [Tooltip("Pencher le manche gauche/droite fait TOURNER le sous-marin (en plus de la torsion). Plus intuitif sous l'eau.")]
     public bool steerWithLean = true;
@@ -92,6 +98,14 @@ public class SubmarineController : MonoBehaviour
         currentYaw = e.y;                         // on démarre dans l'orientation actuelle
         currentPitch = 0f;
         currentRoll = 0f;
+    }
+
+    System.Collections.IEnumerator Start()
+    {
+        if (!recenterOnStart) yield break;
+        yield return new WaitForSeconds(recenterDelay);
+        // position seulement : on ne tourne pas la vue si le joueur regarde ailleurs à cet instant
+        Recenter(false);
     }
 
     void Update()
@@ -211,7 +225,9 @@ public class SubmarineController : MonoBehaviour
     }
 
     /// <summary>Réaligne la vue VR sur le siège (position + cap vers le hublot). Bulletproof, indépendant du runtime.</summary>
-    void Recenter()
+    void Recenter() => Recenter(true);
+
+    void Recenter(bool alignYaw)
     {
         if (xrOrigin == null || seatAnchor == null || xrOrigin.Camera == null) return;
 
@@ -219,7 +235,7 @@ public class SubmarineController : MonoBehaviour
         Transform cam = xrOrigin.Camera.transform;
         Vector3 camFwd = cam.forward;  camFwd.y = 0f;
         Vector3 seatFwd = seatAnchor.forward; seatFwd.y = 0f;
-        if (camFwd.sqrMagnitude > 0.001f && seatFwd.sqrMagnitude > 0.001f)
+        if (alignYaw && camFwd.sqrMagnitude > 0.001f && seatFwd.sqrMagnitude > 0.001f)
         {
             float yaw = Vector3.SignedAngle(camFwd, seatFwd, Vector3.up);
             xrOrigin.RotateAroundCameraUsingOriginUp(yaw);
