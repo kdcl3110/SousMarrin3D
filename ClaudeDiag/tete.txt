@@ -1,0 +1,3 @@
+Yeux : (-1.109, 0.648, 1.071) → (-1.109, 0.648, 0.951)  (déplacement -12 cm vers l'avant)
+Manche : Forward = 0,50 m devant les yeux (immobile dans le cockpit)
+Écran mini-map déplacé avec la tête

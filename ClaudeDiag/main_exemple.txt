@@ -1,0 +1,8 @@
+Exemple : 'Gestures' importé=False → C:\Users\MotionPlatform\Documents\Unity\SousMarin\Assets\Samples\XR Hands\1.10.0\Gestures
+Exemple : 'HandVisualizer' importé=False → C:\Users\MotionPlatform\Documents\Unity\SousMarin\Assets\Samples\XR Hands\1.10.0\HandVisualizer
+Exemple : 'Hand Capture' importé=False → C:\Users\MotionPlatform\Documents\Unity\SousMarin\Assets\Samples\XR Hands\1.10.0\Hand Capture
+Import Hand Visualizer : True → C:\Users\MotionPlatform\Documents\Unity\SousMarin\Assets\Samples\XR Hands\1.10.0\HandVisualizer
+Modèle : Assets/Samples/XR Hands/1.10.0/HandVisualizer/Models/LeftHand.fbx
+Modèle : Assets/Samples/XR Hands/1.10.0/HandVisualizer/Models/LeftHandAndroidXR.fbx
+Modèle : Assets/Samples/XR Hands/1.10.0/HandVisualizer/Models/RightHand.fbx
+Modèle : Assets/Samples/XR Hands/1.10.0/HandVisualizer/Models/RightHandAndroidXR.fbx

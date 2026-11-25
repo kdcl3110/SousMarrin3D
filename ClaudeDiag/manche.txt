@@ -1,0 +1,5 @@
+Socle : centre (-1.108, 0.125, 1.497) taille (0.090, 0.079, 0.078) ; poignée : centre (-1.109, 0.208, 1.451) taille (0.116, 0.199, 0.198) ; haut de poignée au-dessus du pied : 0,222 m
+Poignée redressée : axe d'origine (-0.01, 0.92, -0.40) (inclinaison 24°) → 8° vers l'avant
+Masqués : CockpitEquipments_Joystick2-Base, CockpitEquipments_Joystick2-Handle, CockpitEquipments_ThrottleControl, CockpitEquipments_ThrottleContro1-Base, CockpitEquipments_ThrottleControl1-Handle1, CockpitEquipments_ThrottleControl1-Handle2
+Ancien JoystickVisual désactivé sur CockpitEquipments_Joystick2-Handle
+Manche posé : pied (-0.709, 0.037, 1.271)  haut de poignée (-0.709, 0.298, 1.271)  (yeux (-1.109, 0.648, 1.071) → écart (0.400, -0.350, 0.200))
