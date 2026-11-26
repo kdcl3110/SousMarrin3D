@@ -32,7 +32,7 @@ public static class JoystickRigTool
         if (!handle || !stickBase) { Debug.LogError("[Manche] Modèle du manche (CockpitEquipments_Joystick2-*) introuvable."); return; }
 
         // réglages précédents conservés si on relance
-        float right = 0.40f, forward = 0.38f, below = 0.35f, yaw = 0f;
+        float right = 0.40f, forward = 0.50f, below = 0.35f, yaw = 0f;
         var old = all.FirstOrDefault(t => t.name == MountName);
         if (old)
         {
@@ -42,68 +42,58 @@ public static class JoystickRigTool
             all = sub.GetComponentsInChildren<Transform>(true);   // la liste contenait l'ancien manche détruit
         }
 
-        // dimensions du modèle (repère du sous-marin)
-        Bounds bb = LocalBounds(sub, stickBase), hb = LocalBounds(sub, handle);
-        float baseH = bb.size.y, gripTop = hb.max.y - bb.min.y;
-        log.AppendLine($"Socle : centre {bb.center:F3} taille {bb.size:F3} ; poignée : centre {hb.center:F3} taille {hb.size:F3} ; haut de poignée au-dessus du pied : {gripTop:F3} m");
-
-        // 1) nouveau manche
+        // 1) nouveau manche : même modèle que le tutoriel (disposition du vrai joystick), à l'échelle réelle
         var mount = new GameObject(MountName);
         Undo.RegisterCreatedObjectUndo(mount, "Manche à droite");
         mount.transform.SetParent(stickBase.parent, false);
         var jm = mount.AddComponent<JoystickMount>();
         jm.seatAnchor = ctl.seatAnchor; jm.submarine = sub;
         jm.right = right; jm.forward = forward; jm.below = below; jm.yaw = yaw;
-        jm.gripTopHeight = gripTop;
+        jm.gripTopHeight = 0.28f;
         jm.Apply();
-        // repère « pied du socle » aligné sur le sous-marin : on y recopie les modèles
-        Vector3 footLocal = new Vector3(bb.center.x, bb.min.y, bb.center.z);  // ancien pied (repère sub)
-        Matrix4x4 oldFoot = Matrix4x4.TRS(sub.TransformPoint(footLocal), sub.rotation, Vector3.one);
-        Matrix4x4 newFoot = Matrix4x4.TRS(mount.transform.position, mount.transform.rotation, Vector3.one);
 
-        GameObject CopyAt(Transform src, Transform parent, string name)
-        {
-            var c = Object.Instantiate(src.gameObject);
-            c.name = name;
-            foreach (var mb in c.GetComponentsInChildren<MonoBehaviour>(true)) Object.DestroyImmediate(mb);
-            foreach (var col in c.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(col);
-            Matrix4x4 rel = oldFoot.inverse * src.localToWorldMatrix;   // pose relative à l'ancien pied
-            Matrix4x4 w = newFoot * rel;
-            c.transform.SetParent(parent, true);
-            c.transform.SetPositionAndRotation(w.GetColumn(3), w.rotation);
-            c.transform.localScale = src.lossyScale.x > 0 ? DivideScale(src.lossyScale, parent.lossyScale) : Vector3.one;
-            c.SetActive(true);
-            return c;
-        }
+        var model = new GameObject("Modele");
+        model.layer = mount.layer;
+        model.transform.SetParent(mount.transform, false);
+        float s = JoystickModelBuilder.RealScale;
+        model.transform.localScale = Vector3.one * s / Mathf.Max(1e-4f, mount.transform.lossyScale.x);
+        var parts = JoystickModelBuilder.Build(model.transform, mount.layer);
 
-        CopyAt(stickBase, mount.transform, "Socle");
-
-        // pivot au sommet du socle : la poignée tourne autour de ce point
+        // pivot NON mis à l'échelle (la main s'y accroche en mètres) ; la poignée du modèle passe dessous
         var pivot = new GameObject("Pivot_Manche");
         pivot.transform.SetParent(mount.transform, false);
-        pivot.transform.localPosition = new Vector3(0f, baseH * 0.85f, 0f);
-        pivot.transform.localRotation = Quaternion.identity;
-        var gripCopy = CopyAt(handle, pivot.transform, "Poignee");
-        // le manche du cockpit d'origine penche vers le pilote ; un vrai joystick latéral est presque droit :
-        // on redresse la poignée (légère inclinaison vers l'avant) autour de son pied
-        Uprighten(pivot.transform, gripCopy.transform, uprightLeanDeg, log);
-        // hauteur réelle du sommet après redressement → le haut de la poignée reste à la position voulue
-        gripTop = pivot.transform.localPosition.y + GripPoints(pivot.transform, gripCopy.transform).Max(p => p.y);
-        jm.gripTopHeight = gripTop;
-        jm.Apply();
+        pivot.transform.SetPositionAndRotation(parts.stickPivot.position, mount.transform.rotation);
+        parts.stickPivot.SetParent(pivot.transform, true);
+        parts.stickPivot.name = "Poignee";
         var jv = pivot.AddComponent<JoystickVisual>();
         jv.controller = ctl;
+
+        // hauteur du sommet de la poignée au-dessus du pied → le haut de la poignée reste à la position voulue
+        float topY = 0f;
+        foreach (var mf in parts.stickPivot.GetComponentsInChildren<MeshFilter>(true))
+        {
+            var mb = mf.sharedMesh.bounds;
+            for (int i = 0; i < 8; i++)
+            {
+                var c = mb.center + Vector3.Scale(mb.extents, new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1));
+                topY = Mathf.Max(topY, Vector3.Dot(mf.transform.TransformPoint(c) - mount.transform.position, sub.up));
+            }
+        }
+        float gripTop = topY;
+        jm.gripTopHeight = gripTop;
+        jm.Apply();
+        log.AppendLine($"Modèle du joystick réel à l'échelle {s:F3} : haut de poignée à {gripTop * 100f:F1} cm au-dessus du pied, rotation {yaw:F0}°");
 
         // colonne sous le socle : la partie sous la console est cachée par la console elle-même
         var col0 = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         col0.name = "Colonne";
         Object.DestroyImmediate(col0.GetComponent<Collider>());
         col0.transform.SetParent(mount.transform, false);
-        float colH = 0.6f, colR = Mathf.Min(bb.size.x, bb.size.z) * 0.45f;
+        float colH = 0.6f, colR = 0.07f;
         col0.transform.localPosition = new Vector3(0f, -colH * 0.5f + 0.005f, 0f);
         col0.transform.localScale = new Vector3(colR * 2f, colH * 0.5f, colR * 2f);
-        var baseRend = stickBase.GetComponentInChildren<Renderer>();
-        if (baseRend) col0.GetComponent<MeshRenderer>().sharedMaterial = baseRend.sharedMaterial;
+        var frameRend = model.GetComponentsInChildren<MeshRenderer>(true).FirstOrDefault(r => r.name == "Pied");
+        if (frameRend) col0.GetComponent<MeshRenderer>().sharedMaterial = frameRend.sharedMaterial;
 
         // 2) masquer le manche central et les leviers de gaz décoratifs (réversible : cocher pour réafficher)
         var hide = all.Where(t => t.name == "CockpitEquipments_Joystick2-Handle" || t.name == "CockpitEquipments_Joystick2-Base"
@@ -151,7 +141,8 @@ public static class JoystickRigTool
 
     static void Uprighten(Transform pivot, Transform grip, float leanDeg, StringBuilder log)
     {
-        var pts = GripPoints(pivot, grip);
+        var gripBody = grip.Find("Poignee_Corps");          // modèle du joystick réel : on analyse le corps de la poignée
+        var pts = GripPoints(pivot, gripBody ? gripBody : grip);
         if (pts.Count < 10) return;
         // axe de la poignée : du pied (bas) vers le sommet (le plus loin du pied)
         Vector3 foot = SliceCentroid(pts, Vector3.up, 0f, 0.08f);
@@ -276,7 +267,7 @@ public static class JoystickRigTool
     // ================================================================== MAIN : pose sur le manche
 
     const string HandName = "Main_Droite";
-    const float HandYawDeg = 12f;
+    const float HandYawDeg = 12f;   // la main est un peu tournée vers l'extérieur
     const string GloveMat = "Assets/Materials/Gant_Neoprene.mat";
     const string SleeveMat = "Assets/Materials/Manche_Combinaison.mat";
 
@@ -303,7 +294,8 @@ public static class JoystickRigTool
         if (old) Undo.DestroyObjectImmediate(old.gameObject);
 
         // ---- 1) géométrie de la poignée (repère du pivot)
-        var pts = GripPoints(pivot, grip);
+        var gripBody = grip.Find("Poignee_Corps");          // modèle du joystick réel : on analyse le corps de la poignée
+        var pts = GripPoints(pivot, gripBody ? gripBody : grip);
         if (pts.Count < 10) { Debug.LogError("[Main] Maillage de la poignée illisible."); pivot.localRotation = pivotRot; return; }
         float yMin = pts.Min(p => p.y), yMax = pts.Max(p => p.y), H = yMax - yMin;
         Vector3 Slice(float a, float b)
@@ -347,7 +339,7 @@ public static class JoystickRigTool
         Transform B(string n) => hand.GetComponentsInChildren<Transform>(true).FirstOrDefault(t => t.name == n);
         var palm = B("R_Palm"); var midProx = B("R_MiddleProximal");
         Vector3 anchorHand = hand.transform.InverseTransformPoint((palm.position + midProx.position) * 0.5f);
-        Vector3 gripPoint = topC - up * 0.068f + rightV * (r + 0.019f) - fwd * 0.004f;
+        Vector3 gripPoint = topC - up * 0.055f + rightV * (r + 0.019f) - fwd * 0.004f;
         hand.transform.localPosition = gripPoint - hand.transform.localRotation * (anchorHand * scale);
 
         // ---- 3) doigts enroulés (CCD, rotation autour de l'axe de la poignée)
@@ -374,9 +366,9 @@ public static class JoystickRigTool
         // pouce sur le côté gauche du sommet (bouton du pouce)
         var th = new[] { B("R_ThumbMetacarpal"), B("R_ThumbProximal"), B("R_ThumbDistal") };
         var thTip = B("R_ThumbTip");
-        FreeReach(th, thTip, W(At(0.022f, 160f, r * 0.85f) + up * 0.004f), 55f);
+        FreeReach(th, thTip, W(At(0.012f, 178f, r * 0.9f) + up * 0.004f), 55f);   // bouton du pouce : flanc gauche
         var thRelax = th.Select(t => t.localRotation).ToArray();
-        FreeReach(th, thTip, W(At(0.022f, 160f, r * 0.85f) - up * 0.009f), 60f);
+        FreeReach(th, thTip, W(At(0.012f, 178f, r * 0.75f) - up * 0.004f), 60f);
         var thPress = th.Select(t => t.localRotation).ToArray();
         for (int i = 0; i < th.Length; i++) th[i].localRotation = thRelax[i];
 
@@ -393,9 +385,12 @@ public static class JoystickRigTool
         sleeve.name = "Manchette";
         Object.DestroyImmediate(sleeve.GetComponent<Collider>());
         sleeve.transform.SetParent(wrist, false);
-        float sl = 0.28f;   // avant-bras jusqu'au coude : bras tendu vers le manche
-        // avant-bras : vers l'arrière (-Z du modèle), qui descend vers l'accoudoir (+X = bas) et revient vers le corps (-Y = côté paume)
-        Vector3 armDir = new Vector3(0.22f, -0.12f, -1f).normalized;   // bras plus tendu : l'avant-bras reste presque horizontal
+        float sl = 0.32f;   // avant-bras jusqu'au coude : bras tendu vers le manche
+        // L'avant-bras part TOUJOURS vers l'épaule du pilote (en arrière, un peu vers le siège), quelle que soit
+        // la rotation du manche : direction fixée dans les axes du sous-marin, puis convertie dans le repère du poignet.
+        var subT = ctl.transform;
+        Vector3 armWorld = (-0.92f * subT.forward - 0.38f * subT.right - 0.06f * subT.up).normalized;
+        Vector3 armDir = wrist.InverseTransformDirection(armWorld).normalized;
         sleeve.transform.localRotation = Quaternion.FromToRotation(Vector3.up, armDir);
         sleeve.transform.localPosition = new Vector3(0f, -0.004f, 0.012f) + armDir * (sl * 0.5f);
         sleeve.transform.localScale = new Vector3(0.072f, sl * 0.5f, 0.062f);

@@ -144,6 +144,15 @@ public class CockpitMinimap : MonoBehaviour
         if (startMarker && submarine) startMarker.anchoredPosition = ToMap(submarine.position, out _);
     }
 
+    /// <summary>Efface la traînée et replace le point de départ (nouvelle session d'expo).</summary>
+    public void ResetTrail()
+    {
+        foreach (var g in trail) if (g) g.gameObject.SetActive(false);
+        trailHead = 0;
+        hasTrailPos = false;
+        if (startMarker && submarine) startMarker.anchoredPosition = ToMap(submarine.position, out _);
+    }
+
     /// <summary>Position monde → position dans le rectangle de la carte (pixels UI, origine en bas à gauche).</summary>
     public Vector2 ToMap(Vector3 world, out bool clamped)
     {

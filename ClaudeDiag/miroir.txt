@@ -1,0 +1,14 @@
+Manche miroir installé : 12 boutons, chapeau oui, manette des gaz oui
+  trigger   → Pivot_Gachette
+  button2   → Pivot_Pouce
+  button3   → Bouton_Tete
+  button4   → Bouton_Tete
+  button5   → Bouton_Tete
+  button6   → Bouton_Tete
+  button12  → Bouton_Socle_1
+  button10  → Bouton_Socle_2
+  button8   → Bouton_Socle_3
+  button11  → Bouton_Socle_4
+  button9   → Bouton_Socle_5
+  button7   → Bouton_Socle_6
+Émission activée sur 3 matériaux : Joystick_Gachette, Joystick_Sombre, Joystick_Clair

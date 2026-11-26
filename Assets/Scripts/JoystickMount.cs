@@ -19,8 +19,8 @@ public class JoystickMount : MonoBehaviour
     [Range(-0.2f, 0.8f)] public float right = 0.40f;
     [Range(-0.3f, 0.8f)] public float forward = 0.20f;
     [Range(0f, 0.9f)] public float below = 0.35f;
-    [Tooltip("Rotation du manche autour de la verticale (°), si le vrai joystick est un peu tourné.")]
-    [Range(-45f, 45f)] public float yaw = 0f;
+    [Tooltip("Rotation du manche autour de la verticale (°), comme le vrai joystick (90 = gâchette tournée vers la droite du pilote).")]
+    [Range(-180f, 180f)] public float yaw = 0f;
 
     [Header("Modèle")]
     [Tooltip("Hauteur du haut de la poignée au-dessus de ce point (le pied du socle), en m.")]

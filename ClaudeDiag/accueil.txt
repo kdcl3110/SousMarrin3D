@@ -1,0 +1,3 @@
+Manche du cockpit tourné de 90° comme le vrai ; œil vu depuis le manche : (0.50, 0.61, -0.40) → angle de vue 51°
+Joystick de démonstration : disposition du joystick réel, vue du joueur = rotation 51°.
+Écran d'accueil : 0,78 m de large à 0,95 m, 0° sous l'horizon ; parent Cockpit3_InteriorDetails

@@ -75,6 +75,8 @@ public class SubmarineController : MonoBehaviour
     public float PitchInput => pitchAxis;   // manche avant/arrière
     public float LeanInput  => rollAxis;    // manche gauche/droite
     public float TwistInput => twistAxis;   // torsion du manche
+    public float ThrottleInput => throttleInput; // manette des gaz (0..1)
+    public bool RecenterPressedThisFrame { get; private set; } // bouton de recentrage (pour le tutoriel)
 
     // --- État interne ---
     Rigidbody rb;
@@ -110,6 +112,7 @@ public class SubmarineController : MonoBehaviour
 
     void Update()
     {
+        RecenterPressedThisFrame = false;
         ReadInputs();
 
         if (recenterRequested)
@@ -199,7 +202,10 @@ public class SubmarineController : MonoBehaviour
             if (recenterControl == null)
                 recenterControl = js.TryGetChildControl<ButtonControl>(recenterButtonName);
             if (recenterControl != null && recenterControl.wasPressedThisFrame)
+            {
                 recenterRequested = true;
+                RecenterPressedThisFrame = true;
+            }
         }
         else if (!warnedNoJoystick)
         {
@@ -218,7 +224,7 @@ public class SubmarineController : MonoBehaviour
             if (k.oKey.isPressed) kbThrottle += Time.deltaTime;
             if (k.uKey.isPressed) kbThrottle -= Time.deltaTime;
             kbThrottle = Mathf.Clamp01(kbThrottle);
-            if (k.rKey.wasPressedThisFrame) recenterRequested = true;
+            if (k.rKey.wasPressedThisFrame) { recenterRequested = true; RecenterPressedThisFrame = true; }
 
             if (!haveJoystickThrottle) throttleInput = kbThrottle;
         }
@@ -226,6 +232,22 @@ public class SubmarineController : MonoBehaviour
 
     /// <summary>Réaligne la vue VR sur le siège (position + cap vers le hublot). Bulletproof, indépendant du runtime.</summary>
     void Recenter() => Recenter(true);
+
+    /// <summary>Replace les yeux du joueur sur le siège (position seulement). Utilisé au début de chaque session d'expo.</summary>
+    public void RecenterView() => Recenter(false);
+
+    /// <summary>Remet le sous-marin à une pose donnée, immobile (début de session d'expo).</summary>
+    public void ResetPose(Vector3 position, Quaternion rotation)
+    {
+        if (rb == null) rb = GetComponent<Rigidbody>();
+        bool kin = rb.isKinematic;
+        if (!kin) { rb.linearVelocity = Vector3.zero; rb.angularVelocity = Vector3.zero; }
+        rb.position = position; rb.rotation = rotation;
+        transform.SetPositionAndRotation(position, rotation);
+        Vector3 e = rotation.eulerAngles;
+        currentYaw = e.y; currentPitch = 0f; currentRoll = 0f;
+        kbThrottle = 0f;
+    }
 
     void Recenter(bool alignYaw)
     {

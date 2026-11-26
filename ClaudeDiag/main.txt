@@ -1,7 +1,7 @@
-Poignée : hauteur 0,198 m, rayon ≈ 0,028 m, axe (0.05, 1.00, -0.08), centre (0.000, 0.107, -0.009), sommet (0.004, 0.190, -0.015)
+Poignée : hauteur 0,122 m, rayon ≈ 0,030 m, axe (0.00, 0.95, -0.31), centre (0.000, 0.090, 0.000), sommet (0.000, 0.143, -0.017)
 Main posée : échelle 1,04, index sur 'trigger', pouce sur 'button2'
-  bout Index   à 3,8 cm de l'axe (rayon 2,8), 3,6 cm sous le sommet
-  bout Middle  à 3,5 cm de l'axe (rayon 2,8), 7,0 cm sous le sommet
-  bout Ring    à 3,5 cm de l'axe (rayon 2,8), 9,3 cm sous le sommet
-  bout Little  à 3,2 cm de l'axe (rayon 2,8), 12,1 cm sous le sommet
-  bout Thumb   à 2,5 cm de l'axe (rayon 2,8), 1,8 cm sous le sommet
+  bout Index   à 4,0 cm de l'axe (rayon 3,0), 2,3 cm sous le sommet
+  bout Middle  à 3,6 cm de l'axe (rayon 3,0), 5,7 cm sous le sommet
+  bout Ring    à 3,6 cm de l'axe (rayon 3,0), 8,0 cm sous le sommet
+  bout Little  à 3,2 cm de l'axe (rayon 3,0), 10,8 cm sous le sommet
+  bout Thumb   à 2,8 cm de l'axe (rayon 3,0), 0,8 cm sous le sommet
